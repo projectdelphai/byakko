@@ -1,0 +1,7 @@
+<% if signed_in? %>
+  <%= link_to "Profile", current_user %>
+  <%= link_to "Sign out", signout_path, method: "delete" %>
+<% else %>
+  <li><%= link_to "Sign in", signin_path %></li>
+  <li><%= link_to "Sign up", signup_path %></li>
+<% end %>
