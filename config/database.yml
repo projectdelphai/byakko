@@ -6,7 +6,7 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: mpindrev_development
+  database: byakko_development
   template: template0
   pool: 5
   username: projectdelphai
@@ -24,7 +24,7 @@ test:
 test:
   adapter: postgresql
   encoding: unicode
-  database: mpindrev_test
+  database: byakko_test
   template: template0
   pool: 5
   username: projectdelphai
