@@ -3,12 +3,16 @@ Byakko::Application.routes.draw do
 
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
+  resources :mangas, only: [:new, :create]
 
   root to: 'home#index'
 
   match '/signup', to: 'users#new'
   match '/signin', to: 'sessions#new'
   match '/signout', to: 'sessions#destroy', via: :delete
+  match '/mangas/list', to: 'mangas#list'
+  match '/mangas/info', to: 'mangas#info'
+  match '/mangas/add', to: 'mangas#add'
   
   # The priority is based upon order of creation:
   # first created -> highest priority.

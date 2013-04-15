@@ -1,0 +1,34 @@
+<div id='mangainfowrapper' style='width:75%;margin:auto;padding:2%;'>
+  <div id="searchresult" style="padding-bottom: 3px;height:100%;overflow:hidden;padding:2%;">
+    <div id="searchresultinfo" style="width:66%;float:right;padding:2%;">
+      <h1 style="text-align:center;"><%= @manga['t'] %></h1>
+      <h3>Author: <%= @mangainfo['author'] %></h3>
+      <h3>Artist: <%= @mangainfo['artist'] %></h3>
+      <h3>Year of Release: <%= @mangainfo['released'] %></h3>
+      <h3>Genres: <%= @mangainfo['categories'].to_s.gsub(/\[|\]/, '') %></h3>
+      <h3>Latest Chapter: <%= @mangainfo['chapters'][0][0] %></h3>
+      <h3>Summary: <%= raw @mangainfo['description'] %></h3>
+      <br><br>
+      </div>
+      <div id="searchresultimg" style="width: 30%;height:100%;padding-bottom:400px;margin-bottom:-400px;text-align:center;">
+	<% if @manga['im'] == nil %>
+	  <%= image_tag "noimage.png", style: "width:100%;margin:auto;" %>
+	<% else %>
+	  <img src="http://cdn.mangaeden.com/mangasimg/<%= @manga['im'] %>" style="width:100%;margin:auto;">
+	<% end %>
+	<br>
+	<br>
+	<%= link_to "Back to Title List", mangas_list_path(title: @query) %>
+	<br>
+	<br>
+	<%= link_to "Back to Search", "#{:new}" %>
+	<br>
+	<% if check(@mangainfo['title']) == true %>
+	  <p> Already Subscribed to Manga </p>
+	<% else %>
+	  <br>
+	  <%= link_to "Add Manga", mangas_add_path(manga: [ @mangainfo['title'], @mangainfo['author'], @mangainfo['chapters'][0][0] ]) %>
+	<% end %>
+    </div>
+  </div>
+</div>

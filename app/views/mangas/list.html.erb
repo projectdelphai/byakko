@@ -1,0 +1,20 @@
+<div id="searchresultswrapper" style="width: 75%; margin: auto">
+  <h5>
+    <% @results.each { |x|%>
+      <div id="searchresult" style="padding-bottom: 3px;height:100%;overflow:hidden;">
+	<div id="searchresultinfo" style="width:70%;float:right;">
+	  <h1 style="text-align:center;"><%= x['t'] %></h1>
+	  <br><br>
+	  <%= link_to "More info", mangas_info_path(manga: x, query: @query) %>
+	</div>
+	<div id="searchresultimg" style="width: 30%;height:100%;padding-bottom:400px;margin-bottom:-400px;">
+	  <% if x['im'] == nil %>
+	      <%= image_tag "noimage.png", style: "width:100%;margin:auto;" %>
+	  <% else %>
+	    <img src="http://cdn.mangaeden.com/mangasimg/<%= x['im'] %>" style="width:100%;margin:auto;">
+	  <% end %>
+	</div>
+      </div>
+    <% } %>
+  </h5>
+</div>

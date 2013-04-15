@@ -1,2 +1,26 @@
 <% provide(:title, @user.username) %>
-<h1><%= @user.username %></h1>
+<h1 style="text-align:center;"><%= @user.username %></h1>
+
+<div class="mangalist" style="width:75%; margin:auto;">
+  <div class="title" style="float:left;width:50%;">
+    <h3>Title</h3>
+    <h4>
+      <% @subscription.each { |x| %>
+	<%= x[:title] %>
+	<br>
+	<br>
+      <% } %>
+    </h4>
+  </div>
+  <div class="author" style="overflow:hidden;">
+    <h3>Chapter</h3>
+      <% @subscription.each { |x| %>
+	<%= x[:chapter] %>
+	<br>
+	<br>
+      <% } %>
+    <h4>
+    </h4>
+  </div>
+</div>
+<%= link_to "Add manga", controller: "mangas", action: "new" %>

@@ -11,7 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130413043806) do
+ActiveRecord::Schema.define(:version => 20130415031704) do
+
+  create_table "mangas", :force => true do |t|
+    t.string   "title"
+    t.string   "author"
+    t.text     "latestchapter"
+    t.string   "cover"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "username"
@@ -19,6 +28,7 @@ ActiveRecord::Schema.define(:version => 20130413043806) do
     t.datetime "updated_at",      :null => false
     t.string   "password_digest"
     t.string   "remember_token"
+    t.text     "subscription"
   end
 
   add_index "users", ["remember_token"], :name => "index_users_on_remember_token"

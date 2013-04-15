@@ -1,7 +1,9 @@
-<% if signed_in? %>
-  <%= link_to "Profile", current_user %>
-  <%= link_to "Sign out", signout_path, method: "delete" %>
-<% else %>
-  <li><%= link_to "Sign in", signin_path %></li>
-  <li><%= link_to "Sign up", signup_path %></li>
-<% end %>
+<div id="header" style="padding:2%;font-size:1.2em;text-align:right;">
+  <% if signed_in? %>
+    <%= link_to "Profile", current_user %>
+    <%= link_to "Sign out", signout_path, method: "delete" %>
+  <% else %>
+    <li><%= link_to "Sign in", signin_path %></li>
+    <li><%= link_to "Sign up", signup_path %></li>
+  <% end %>
+</div>
