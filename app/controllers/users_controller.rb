@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   before_filter :user_entry_okay, only: [ :show ]
   def show
     @user = User.find(params[:id])
-    @subscription = YAML.load(@user.subscription)
+    @subscription = YAML.load(@user.subscription) unless @user.subscription == nil
   end
 
   def new
