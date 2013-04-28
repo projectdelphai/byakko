@@ -2,19 +2,31 @@
 <h1 style="text-align:center;"><%= @user.username %></h1>
 
 <div class="mangalist" style="width:75%; margin:auto;">
-  <div class="title" style="float:left;width:50%;">
+  <div class="title">
     <h3>Title</h3>
     <h4>
       <% unless @subscription == nil %>
-	<% @subscription.each { |x| %>
-	  <%= x[:title] %>
+	<% @subscription.each_with_index { |x,index| %>
+	  <%= link_to x[:title], mangas_info_path(manga: info(x[:title]), query: x[:title], newchapters: @newchapters[index]) %>
 	  <br>
 	  <br>
 	<% } %>
       <% end %>
     </h4>
   </div>
-  <div class="author" style="overflow:hidden;">
+  <div class="newchapters">
+    <h3>New Chapters</h3>
+    <h4>
+      <% unless @subscription == nil %>
+	<% @newchapters.each { |x| %>
+	  <%= x %>
+	  <br>
+	  <br>
+	<% } %>
+      <% end %>
+    </h4>
+  </div>
+  <div class="chapter">
     <h3>Chapter</h3>
     <h4>
       <% unless @subscription == nil %>

@@ -31,4 +31,56 @@
 	<% end %>
     </div>
   </div>
+  <div id="newchapterswrapper">
+    <% @new_manga_chapters.each { |x| %>
+      <div class="chapternumber">
+	<%= x[0] %>
+	</div>
+	<div class="chaptertitle">
+	  <% if x[2] == x[0].to_s %>
+	    <%= "No Title" %>
+	  <% else %>
+   	    <%= truncate(x[2], length: 38) %>
+	  <% end %>
+	</div>
+	<div class="readonline">
+	  <a href="#readmodal<%= x[0] %>">Read Online</a>
+	  <div id="readmodal<%= x[0] %>" class="modal">
+	    <div>
+	      <a href="#close" title="Close" class="close">X</a>
+	      <h2>
+		<a href="http://www.mangaeden.com/en-manga/<%= @mangainfo['alias'] %>/<%= x[0] %>/1">Mangaeden</a>
+		<br>
+		<br>
+		Batoto
+		<br>
+		<br>
+		Scanlator
+		<br>
+		<br>
+		Raw
+		<br>
+		<br>
+	      </h2>
+	    </div>
+	  </div>
+	</div>
+	<div class="download">
+	  <a href="#downloadmodal<%= x[0] %>">Download</a>
+	  <div id="downloadmodal<%= x[0] %>" class="modal">
+	    <div>
+	      <a href="#close" title="Close" class="close">X</a>
+	      <h2>
+		<%= x[0] %>:
+		<% if x[2] == x[0].to_s %>
+		  <%= "No Title" %>
+		<% else %>
+		  <%= truncate(x[2], length: 38) %>
+      		<% end %>
+	      </h2>
+	    </div>
+	  </div>
+	</div>
+    <% } %>
+  </div>
 </div>

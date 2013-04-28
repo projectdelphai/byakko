@@ -18,6 +18,19 @@ class MangasController < ApplicationController
    @manga = params['manga']  
    @mangainfo = JSON.parse(HTTParty.get("http://www.mangaeden.com/api/manga/#{@manga['i']}/").body)
    @query = params['query']
+   subscription = YAML.load(current_user.subscription)
+   subscription.each { |x|
+     if x[:title] == @query
+       @current_chapter = x[:chapter]
+     else
+       nil
+     end
+   }
+   @new_manga_chapters = []
+   @mangainfo['chapters'].each { |x|
+     @new_manga_chapters.push x if x[0] > @current_chapter.to_i
+   }
+   @new_manga_chapters.reverse!
   end
 
   def add
