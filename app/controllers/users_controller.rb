@@ -4,11 +4,13 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @subscription = YAML.load(@user.subscription) unless @user.subscription == nil
     @newchapters=[]
-    @subscription.each { |x|
-      manga = Manga.find_by_title(x[:title])
-      y = manga.latestchapter.to_i - x[:chapter].to_i
-      @newchapters.push y
-    }
+    unless @subscription == nil
+      @subscription.each { |x|
+  	manga = Manga.find_by_title(x[:title])
+  	y = manga.latestchapter.to_i - x[:chapter].to_i
+  	@newchapters.push y
+      }
+    end
   end
 
   def new
