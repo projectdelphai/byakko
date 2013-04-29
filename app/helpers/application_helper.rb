@@ -5,7 +5,7 @@ module ApplicationHelper
     @query = title
     @manga=""
     mangaedenmanga['manga'].each { |x|
-      @manga = x if x['t'].downcase.include? title.strip.downcase
+      @manga = x if x['t'].downcase == title.strip.downcase
     }
     return @manga
   end

@@ -1,3 +1,38 @@
 // Place all the styles related to the home controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+* {
+  font-family: 'Noto Serif';
+}
+
+#mainwrapper {
+  width: 50%;
+  margin:auto;
+  margin-top: 10%;
+}
+
+#mainwrapper h1 {
+  font-family: 'Noto Serif';
+  text-align: center;
+  font-size: 6em;
+}
+
+.addmangaform {
+  width:50%;
+  margin:auto;
+  margin-top: -10%;
+  padding:4%;
+}
+
+#title {
+  width: 100%;
+  margin:auto;
+  font-size:1.3em;
+}
+
+.enterbutton {
+  width: 50%;
+  margin-left: 25%;
+}
+

@@ -11,11 +11,13 @@
       <br><br>
       </div>
       <div id="searchresultimg" style="width: 30%;height:100%;padding-bottom:400px;margin-bottom:-400px;text-align:center;">
-	<% if @manga['im'] == nil %>
-	  <%= image_tag "noimage.png", style: "width:100%;margin:auto;" %>
-	<% else %>
-	  <img src="http://cdn.mangaeden.com/mangasimg/<%= @manga['im'] %>" style="width:100%;margin:auto;">
-	<% end %>
+	<div id="image">
+	  <% if @manga['im'] == nil %>
+	    <%= image_tag "noimage.png", style: "width:100%;margin:auto;" %>
+	  <% else %>
+	    <img src="http://cdn.mangaeden.com/mangasimg/<%= @manga['im'] %>" style="width:100%;margin:auto;">
+	  <% end %>
+	</div>
 	<br>
 	<br>
 	<%= link_to "Back to Title List", mangas_list_path(title: @query) %>
@@ -23,13 +25,17 @@
 	<br>
 	<%= link_to "Back to Search", "#{:new}" %>
 	<br>
-	<% if check(@mangainfo['title']) == true %>
-	  <p> Already Subscribed to Manga </p>
+	<% if current_user == nil %>
+	  <p> Sign in to add manga </p>
 	<% else %>
-	  <br>
-	  <%= link_to "Add Manga", mangas_add_path(manga: [ @mangainfo['title'], @mangainfo['author'], @mangainfo['chapters'][0][0] ]) %>
-	<% end %>
-    </div>
+	  <% if check(@mangainfo['title']) == true %>
+	    <p> Already Subscribed to Manga </p>
+	  <% else %>
+	    <br>
+	    <%= link_to "Add Manga", mangas_add_path(manga: [ @mangainfo['title'], @mangainfo['author'], @mangainfo['chapters'][0][0] ]) %>
+	  <% end %>
+	<% end%>
+      </div>
   </div>
   <div id="newchapterswrapper">
     <% @new_manga_chapters.each { |x| %>

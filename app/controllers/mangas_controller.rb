@@ -1,10 +1,10 @@
 class MangasController < ApplicationController
 
   def new
-    @manga = Manga.new
   end
 
   def list
+    @manga = Manga.new
     require 'httparty'
     mangaedenmanga = JSON.parse(File.open("app/controllers/edenmangalist.txt", "rb") { |f| f.read })
     @query = params[:title]
@@ -12,20 +12,30 @@ class MangasController < ApplicationController
     mangaedenmanga['manga'].each { |x|
       @results.push x if x['t'].downcase.include? params[:title].strip.downcase
     }
+    if @results.size == 1
+      redirect_to mangas_info_path(manga: @results.first, query: @query)
+    else
+      nil
+    end
   end
 
   def info
+   @manga = Manga.new
    @manga = params['manga']  
    @mangainfo = JSON.parse(HTTParty.get("http://www.mangaeden.com/api/manga/#{@manga['i']}/").body)
    @query = params['query']
-   subscription = YAML.load(current_user.subscription)
-   subscription.each { |x|
-     if x[:title] == @query
-       @current_chapter = x[:chapter]
-     else
-       nil
-     end
-   }
+   if !current_user.nil? == false
+     @current_chapter = 0
+   else
+     subscription = YAML.load(current_user.subscription)
+     subscription.each { |x|
+       if x[:title] == @query
+  	 @current_chapter = x[:chapter]
+       else
+  	 nil
+       end
+     }
+   end
    @new_manga_chapters = []
    @mangainfo['chapters'].each { |x|
      @new_manga_chapters.push x if x[0] > @current_chapter.to_i

@@ -1,9 +1,18 @@
-<div id="header" style="padding:2%;font-size:1.2em;text-align:right;">
-  <% if signed_in? %>
-    <%= link_to "Profile", current_user %>
-    <%= link_to "Sign out", signout_path, method: "delete" %>
-  <% else %>
-    <%= link_to "Sign in", signin_path %>
-    <%= link_to "Sign up", signup_path %>
-  <% end %>
+<div id="header">
+  <div id="leftheader">
+    <% if request.fullpath == "/" %>
+      <% nil %>
+    <% else %>
+      <h2><%= link_to "Byakko", root_path %></h2>
+    <% end %>
+  </div>
+  <div id="rightheader">
+    <% if signed_in? %>
+      <%= link_to "Profile", current_user %>
+      <%= link_to "Sign out", signout_path, method: "delete" %>
+    <% else %>
+      <%= link_to "Sign in", signin_path %>
+      <%= link_to "Sign up", signup_path %>
+    <% end %>
+  </div>
 </div>

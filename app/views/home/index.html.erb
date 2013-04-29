@@ -1,1 +1,11 @@
-<h1 style="text-align:center">Byakko</h1>
+<div id="mainwrapper">
+  <h1>Byakko</h1>
+  <div class="addmangaform">
+    <%= form_tag(controller: "mangas", action: 'list') do %>
+      <%= text_field_tag("title") %>
+      <br>
+      <br>
+      <%= submit_tag("Search for manga", class: "enterbutton") %>
+    <% end %>
+  </div>
+</div>

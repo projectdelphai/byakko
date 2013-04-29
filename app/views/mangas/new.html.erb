@@ -1,12 +1,15 @@
-<div class="addmangaform">
-  <%= form_tag(action: 'list') do %>
-    <%= label_tag("title") %>
-    <%= text_field_tag("title") %>
-
-    <br> 
-    <br> 
-
-    <%= submit_tag("Search for manga", class: "enterbutton") %>
-  <% end %>
+<div id="searchbarwrapper">
+  <h1>
+    Search
+  </h2>
+  <div class="addmangaform">
+    <%= form_tag(action: 'list') do %>
+      <%= text_field_tag("title") %>
+  
+      <br> 
+      <br> 
+  
+      <%= submit_tag("Search for manga", class: "enterbutton") %>
+    <% end %>
+  </div>
 </div>
-
