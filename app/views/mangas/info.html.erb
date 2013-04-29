@@ -78,6 +78,12 @@
 		  <%= truncate(x[2], length: 38) %>
       		<% end %>
 	      </h2>
+	      <% @mangainfo['chapters'].each { |y| %>
+		<% if y[0].to_i == x[2].to_i %>
+		  <% @mangachapter =  x %>
+		<% end %>
+	      <% } %>
+	      <%= link_to "Download", mangas_download_url(manga: @manga, chapter: x[2].to_i, mangachapter: @mangachapter) %>
 	    </div>
 	  </div>
 	</div>

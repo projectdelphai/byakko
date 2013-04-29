@@ -33,6 +33,38 @@ class MangasController < ApplicationController
    @new_manga_chapters.reverse!
   end
 
+  def download
+    require 'httparty'
+    require 'zip/zip'
+    @manga = params['manga']
+    @chapter = params['chapter']
+    @mangachapter = params['mangachapter']
+    @response = JSON.parse(HTTParty.get("http://www.mangaeden.com/api/chapter/#{@mangachapter[3]}/").body)
+    Dir.mktmpdir("#{@manga['a']}_#{@chapter}", Rails.root) { |dir|
+      bt = Time.now
+      @response['images'].reverse.each { |x|
+	y = sprintf '%02d', x[0].to_i
+	File.open("#{dir}/#{@manga['t']}_#{y}.jpg", "wb") do |i|
+	  begin
+  	    i << HTTParty.get("http://cdn.mangaeden.com/mangasimg/#{x[1]}")
+	  rescue
+	    retry
+	  end
+	end
+      }
+      images=`ls #{dir}`.split(/\n/)
+      Zip::ZipFile.open("public/manga/#{@manga['a']} #{@chapter}.cbz", Zip::ZipFile::CREATE) do |zipfile|
+	images.each_with_index { |image,index|
+	  y = sprintf '%02d', index.to_i
+	  zipfile.add("#{@manga['a']} #{@chapter} #{y}.jpg", "#{dir}/#{image}")
+	}
+      end
+      send_file "public/manga/#{@manga['a']} #{@chapter}.cbz"
+      et = Time.now
+      puts "Time elapsed: #{(et-bt)} seconds"
+    }
+  end
+
   def add
     manga = Manga.find_by_title(params[:manga][0])
     if manga
