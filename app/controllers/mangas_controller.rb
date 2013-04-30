@@ -75,6 +75,23 @@ class MangasController < ApplicationController
     }
   end
 
+  def markasread
+    parsedsubscription = YAML.load(current_user.subscription)
+    parsedsubscription.each { |manga|
+      if manga[:title] == params['manga']
+	manga[:chapter] = params['chapter']
+      else
+	nil
+      end
+    }
+    current_user.update_attributes(subscription: parsedsubscription)
+    current_user.save!(validate: false)
+    sign_in current_user
+
+    redirect_to :back
+
+  end
+
   def add
     manga = Manga.find_by_title(params[:manga][0])
     if manga

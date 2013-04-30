@@ -19,7 +19,11 @@
     <h4>
       <% unless @subscription == nil %>
 	<% @newchapters.each { |x| %>
-	  <%= x %>
+	  <% if x < 0 %>
+	    <%= x=0 %>
+	  <% else %>
+	    <%= x %>
+	  <% end %>
 	  <br>
 	  <br>
 	<% } %>
@@ -39,4 +43,8 @@
     </h4>
   </div>
 </div>
-<%= link_to "Add manga", controller: "mangas", action: "new" %>
+<div id="addmanga">
+  <h4>
+    <%= link_to "Add manga", controller: "mangas", action: "new" %>
+  </h4>
+</div>

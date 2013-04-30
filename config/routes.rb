@@ -14,6 +14,7 @@ Byakko::Application.routes.draw do
   match '/mangas/info', to: 'mangas#info'
   match '/mangas/add', to: 'mangas#add'
   match 'mangas/download' => 'mangas#download', :as => 'mangas_download'
+  match 'mangas/markasread' => 'mangas#markasread', :as => 'mangas_markasread'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

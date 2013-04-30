@@ -39,15 +39,12 @@
   </div>
   <div id="newchapterswrapper">
     <% @new_manga_chapters.each { |x| %>
-      <div class="chapternumber">
-	<%= x[0] %>
+      <div id="row<%= x[0] %>">
+	<div class="chapternumber">
+	  <%= x[0] %>
 	</div>
-	<div class="chaptertitle">
-	  <% if x[2] == x[0].to_s %>
-	    <%= "No Title" %>
-	  <% else %>
-   	    <%= truncate(x[2], length: 38) %>
-	  <% end %>
+	<div class="markasread">
+	  <%= link_to "Mark As Read", mangas_markasread_url(manga: @manga['t'], chapter: x[0].to_i) %>
 	</div>
 	<div class="readonline">
 	  <a href="#readmodal<%= x[0] %>">Read Online</a>
@@ -67,10 +64,10 @@
 		Raw
 		<br>
 		<br>
-	      </h2>
-	    </div>
-	  </div>
-	</div>
+  	      </h2>
+            </div>
+          </div>
+        </div>
 	<div class="download">
 	  <a href="#downloadmodal<%= x[0] %>">Download</a>
 	  <div id="downloadmodal<%= x[0] %>" class="modal">
@@ -82,7 +79,7 @@
 		  <%= "No Title" %>
 		<% else %>
 		  <%= truncate(x[2], length: 38) %>
-      		<% end %>
+		<% end %>
 	      </h2>
 	      <% @mangainfo['chapters'].each { |y| %>
 		<% if y[0].to_i == x[2].to_i %>
@@ -92,7 +89,7 @@
 	      <%= link_to "Download", mangas_download_url(manga: @manga, chapter: x[2].to_i, mangachapter: @mangachapter) %>
 	    </div>
 	  </div>
-	</div>
+        </div>
     <% } %>
   </div>
 </div>
