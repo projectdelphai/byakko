@@ -49,42 +49,16 @@ class MangasController < ApplicationController
 
     for file in session.files
       if file.title == "#{params['manga']}-#{params['chapter']}.cbz"
-	manga_info = JSON.parse(HTTParty.get("https://www.googleapis.com/drive/v2/files/#{session.files.first.resource_id.gsub('file:', '')}?key=AIzaSyBSp1WWKUNTDd2DYBd9DwmxDBGshSWd5qM").body)
+	manga_info = JSON.parse(HTTParty.get("https://www.googleapis.com/drive/v2/files/#{file.resource_id.gsub('file:', '')}?key=AIzaSyBSp1WWKUNTDd2DYBd9DwmxDBGshSWd5qM").body)
 	manga_url = manga_info['webContentLink']
       end
     end
-    redirect_to manga_url
-=begin
-    require 'httparty'
-    require 'zip/zip'
-    @manga = params['manga']
-    @chapter = params['chapter']
-    @mangachapter = params['mangachapter']
-    @response = JSON.parse(HTTParty.get("http://www.mangaeden.com/api/chapter/#{@mangachapter[3]}/").body)
-    Dir.mktmpdir("#{@manga['a']}_#{@chapter}", Rails.root) { |dir|
-      bt = Time.now
-      @response['images'].reverse.each { |x|
-	y = sprintf '%02d', x[0].to_i
-	File.open("#{dir}/#{@manga['t']}_#{y}.jpg", "wb") do |i|
-	  begin
-  	    i << HTTParty.get("http://cdn.mangaeden.com/mangasimg/#{x[1]}")
-	  rescue
-	    retry
-	  end
-	end
-      }
-      images=`ls #{dir}`.split(/\n/)
-      Zip::ZipFile.open("public/manga/#{@manga['a']} #{@chapter}.cbz", Zip::ZipFile::CREATE) do |zipfile|
-	images.each_with_index { |image,index|
-	  y = sprintf '%02d', index.to_i
-	  zipfile.add("#{@manga['a']} #{@chapter} #{y}.jpg", "#{dir}/#{image}")
-	}
-      end
-      send_file "public/manga/#{@manga['a']} #{@chapter}.cbz"
-      et = Time.now
-      puts "Time elapsed: #{(et-bt)} seconds"
-    }
-=end
+
+    if manga_url != nil
+      redirect_to manga_url
+    else
+      redirect_to :back
+    end
   end
 
   def markasread
