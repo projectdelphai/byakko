@@ -86,7 +86,7 @@
 		  <% @mangachapter =  x %>
 		<% end %>
 	      <% } %>
-	      <%= link_to "Download", mangas_download_url(manga: @manga, chapter: x[2].to_i, mangachapter: @mangachapter) %>
+	      <%= link_to "Download", mangas_download_url(manga: @manga['a'], chapter: x[2].to_i) %>
 	    </div>
 	  </div>
         </div>

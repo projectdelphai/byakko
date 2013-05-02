@@ -44,6 +44,17 @@ class MangasController < ApplicationController
   end
 
   def download
+    require "google_drive"
+    session = GoogleDrive.login("byakkomanga@gmail.com", ENV['DRIVE_PASSWORD'])
+
+    for file in session.files
+      if file.title == "#{params['manga']}-#{params['chapter']}.cbz"
+	manga_info = JSON.parse(HTTParty.get("https://www.googleapis.com/drive/v2/files/#{session.files.first.resource_id.gsub('file:', '')}?key=AIzaSyBSp1WWKUNTDd2DYBd9DwmxDBGshSWd5qM").body)
+	manga_url = manga_info['webContentLink']
+      end
+    end
+    redirect_to manga_url
+=begin
     require 'httparty'
     require 'zip/zip'
     @manga = params['manga']
@@ -73,6 +84,7 @@ class MangasController < ApplicationController
       et = Time.now
       puts "Time elapsed: #{(et-bt)} seconds"
     }
+=end
   end
 
   def markasread

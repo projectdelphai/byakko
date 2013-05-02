@@ -9,6 +9,7 @@ gem 'pg'
 gem "httparty"
 gem "rubyzip", :require => 'zip/zip'
 gem "unicorn"
+gem "google_drive"
 
 # Gems used only for assets and not required
 # in production environments by default.
