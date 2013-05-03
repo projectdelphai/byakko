@@ -1,6 +1,9 @@
 class MangasController < ApplicationController
+  
+  include MangasHelper
 
   def new
+
   end
 
   def list
@@ -43,16 +46,22 @@ class MangasController < ApplicationController
    @new_manga_chapters.reverse!
   end
 
-  def download
-    require "google_drive"
-    session = GoogleDrive.login("byakkomanga@gmail.com", ENV['DRIVE_PASSWORD'])
+  def read
+    manga_url = download_manga(params['manga'], params['chapter'])
 
-    for file in session.files
-      if file.title == "#{params['manga']}-#{params['chapter']}.cbz"
-	manga_info = JSON.parse(HTTParty.get("https://www.googleapis.com/drive/v2/files/#{file.resource_id.gsub('file:', '')}?key=AIzaSyBSp1WWKUNTDd2DYBd9DwmxDBGshSWd5qM").body)
-	manga_url = manga_info['webContentLink']
-      end
+    if manga_url != nil
+      @manga_url = manga_url
+      @manga = params['manga']
+      @chapter = params['chapter']
+    else
+      redirect_to :back
     end
+
+
+  end
+
+  def download
+    manga_url = download_manga(params['manga'], params['chapter'])
 
     if manga_url != nil
       redirect_to manga_url

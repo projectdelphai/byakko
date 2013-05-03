@@ -1,0 +1,31 @@
+<script type="text/javascript">
+$(function() {
+	$('a').lightBox(); // Select all links in the page
+});
+</script>
+
+<div id="gallery">
+  <% 
+    require 'open-uri' 
+    require 'zip/zip'
+    filename = "#{@manga}-#{@chapter}.zip"
+    basedir = "#{Rails.root}/public/manga/#{@manga}-#{@chapter}/"
+    if Dir.exists? "#{basedir}"
+      nil
+    else
+      Dir.mkdir "#{Rails.root}/public/manga/#{@manga}-#{@chapter}/"
+      open("#{basedir}#{filename}", "wb") do |file| 
+	file << open("#{@manga_url}").read 
+      end
+      puts "extracting now"
+      unzip_file("#{basedir}#{filename}", "#{basedir}")
+    end
+    images = `ls "#{basedir}" | grep jpg`.split(/\n/)
+  %>
+  <% images.each_with_index { |imagepath,index| %>
+    <div id="manga<%= index %>" class="mangaimage">
+      <%= image_tag("/manga/#{@manga}-#{@chapter}/#{imagepath}") %>
+    </div>
+  <% } %>
+
+</div>

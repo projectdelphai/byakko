@@ -47,7 +47,7 @@
 	  <%= link_to "Mark As Read", mangas_markasread_url(manga: @manga['t'], chapter: x[0].to_i) %>
 	</div>
 	<div class="readonline">
-	  <a href="#readmodal<%= x[0] %>">Read Online</a>
+	  <a href="#readmodal<%= x[0] %>">Read</a>
 	  <div id="readmodal<%= x[0] %>" class="modal">
 	    <div>
 	      <a href="#close" title="Close" class="close">X</a>
@@ -64,6 +64,7 @@
 		Raw
 		<br>
 		<br>
+		<%= link_to "Read on Byakko", mangas_read_path(manga: @manga['a'], chapter: x[2].to_i) %>
   	      </h2>
             </div>
           </div>
