@@ -24,24 +24,15 @@ class MangasController < ApplicationController
 
   def info
    @manga = Manga.new
-   @manga = params['manga']  
+   mangaedenmanga = JSON.parse(File.open("app/controllers/edenmangalist.txt", "rb") { |f| f.read })
+   mangaedenmanga['manga'].each { |x|
+     @manga = x if x['a'] == params[:manga]
+     @manga = x if x['t'] == params[:manga]
+   }
    @mangainfo = JSON.parse(HTTParty.get("http://www.mangaeden.com/api/manga/#{@manga['i']}/").body)
-   @query = params['query']
-   if !current_user.nil? == false
-     @current_chapter = 0
-   else
-     subscription = YAML.load(current_user.subscription)
-     subscription.each { |x|
-       if x[:title] == @query
-  	 @current_chapter = x[:chapter]
-       else
-  	 nil
-       end
-     }
-   end
    @new_manga_chapters = []
-   @mangainfo['chapters'].each { |x|
-     @new_manga_chapters.push x if x[0] > @current_chapter.to_i
+   @mangainfo['chapters'][0..(params['newchapters'].to_i-1)].each { |x|
+     @new_manga_chapters.push x
    }
    @new_manga_chapters.reverse!
   end

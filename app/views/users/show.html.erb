@@ -7,7 +7,7 @@
     <h4>
       <% unless @subscription == nil %>
 	<% @subscription.each_with_index { |x,index| %>
-	  <%= link_to x[:title], mangas_info_path(manga: info(x[:title]), query: x[:title], newchapters: @newchapters[index]) %>
+	  <%= link_to x[:title], mangas_info_path(manga: x[:title], newchapters: @newchapters[index]) %>
 	  <br>
 	  <br>
 	<% } %>
