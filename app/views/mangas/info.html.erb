@@ -35,7 +35,7 @@
       </div>
   </div>
   <div id="newchapterswrapper">
-    <% @new_manga_chapters.each { |x| %>
+    <% @new_manga_chapters[0..50].each { |x| %>
       <div id="row<%= x[0] %>">
 	<div class="chapternumber">
 	  <%= x[0] %>
@@ -76,7 +76,7 @@
 	    <div>
 	      <a href="#close" title="Close" class="close">X</a>
 	      <h2>
-		<%= "#{x[2]}:#{x[0]}" %>
+		<%= "#{@manga['t']} : Chapter #{x[0]}" %>
 	      </h2>
 	      <% @mangainfo['chapters'].each { |y| %>
 		<% if y[0].to_i == x[2].to_i %>
