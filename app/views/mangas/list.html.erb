@@ -5,7 +5,7 @@
 	<div id="searchresultinfo" style="width:70%;float:right;">
 	  <h1 style="text-align:center;"><%= x['t'] %></h1>
 	  <br><br>
-	  <%= link_to "More info", mangas_info_path(manga: x['a']) %>
+	  <%= link_to "More info", mangas_info_path(manga: x['a'], newchapters: -1) %>
 	</div>
 	<div id="searchresultimg" style="width: 30%;height:100%;padding-bottom:400px;margin-bottom:-400px;">
 	  <% if x['im'] == nil %>

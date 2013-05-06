@@ -16,7 +16,7 @@ class MangasController < ApplicationController
       @results.push x if x['t'].downcase.include? params[:title].strip.downcase
     }
     if @results.size == 1
-      redirect_to mangas_info_path(manga: @results.first, query: @query)
+      redirect_to mangas_info_path(manga: @results.first['t'], newchapters: -1)
     else
       nil
     end
@@ -31,14 +31,16 @@ class MangasController < ApplicationController
    }
    @mangainfo = JSON.parse(HTTParty.get("http://www.mangaeden.com/api/manga/#{@manga['i']}/").body)
    @new_manga_chapters=[]   
-   @mangainfo['chapters'].each { |x|
-     @new_manga_chapters.push x
-   }
-   @new_manga_chapters.reverse!
    if params['newchapters'].to_i == 0
-     @new_manga_chapters == nil
+     @new_manga_chapters=[]
    elsif params['newchapters'].to_i >= 1
+     @new_manga_chapters=[]
      @mangainfo['chapters'][0..(params['newchapters'].to_i-1)].each { |x|
+       @new_manga_chapters.push x
+     }
+     @new_manga_chapters.reverse!
+   elsif params['newchapters']
+     @mangainfo['chapters'].each { |x|
        @new_manga_chapters.push x
      }
      @new_manga_chapters.reverse!
@@ -70,26 +72,30 @@ class MangasController < ApplicationController
   end
 
   def markasread
-    parsedsubscription = YAML.load(current_user.subscription)
-    parsedsubscription.each { |manga|
-      if manga[:title] == params['manga']
-	manga[:chapter] = params['chapter']
-      else
-	nil
+    if signed_in?
+      parsedsubscription = YAML.load(current_user.subscription)
+      parsedsubscription.each { |manga|
+  	if manga[:title] == params['manga']
+  	  manga[:chapter] = params['chapter']
+  	else
+  	  nil
+  	end
+      }
+      current_user.update_attributes(subscription: parsedsubscription)
+      current_user.save!(validate: false)
+      sign_in current_user
+      
+      newchapters = -1
+      if params['newchapters'].to_i >= 2
+  	newchapters = params['newchapters'].to_i - 1
+      elsif params['newchapters'].to_i == 0 or params['newchapters'].to_i == 1
+  	newchapters = 0
       end
-    }
-    current_user.update_attributes(subscription: parsedsubscription)
-    current_user.save!(validate: false)
-    sign_in current_user
-
-    newchapters = -1
-    if params['newchapters'].to_i >= 2
-      newchapters = params['newchapters'].to_i - 2
+      
+      redirect_to mangas_info_path(manga: params['manga'], newchapters: newchapters)
     else
-      newchapters = 0
+      redirect_to signin_path
     end
-
-    redirect_to mangas_info_path(manga: params['manga'], newchapters: newchapters)
   end
 
   def add
