@@ -1,5 +1,21 @@
 <% provide(:title, @user.username) %>
 <h1 style="text-align:center;"><%= @user.username %></h1>
+<h2 style="text-align:center;">
+  <%
+    new_chapters=0
+    @newchapters.each { |x|
+      if x > 0
+	new_chapters = new_chapters += x
+      end
+    }
+    if new_chapters == 1
+      chapters = "Chapter"
+    else
+      chapters = "Chapters"
+    end
+  %>
+  <%= "#{new_chapters} New #{chapters}" %>
+</h2>
 
 <div class="mangalist" style="width:75%; margin:auto;">
   <div class="title">
