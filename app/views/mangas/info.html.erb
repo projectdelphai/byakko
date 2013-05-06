@@ -41,7 +41,7 @@
 	  <%= x[0] %>
 	</div>
 	<div class="markasread">
-	  <%= link_to "Mark As Read", mangas_markasread_url(manga: @manga['t'], chapter: x[0].to_i) %>
+	  <%= link_to "Mark As Read", mangas_markasread_url(manga: @manga['t'], chapter: x[0].to_i, newchapters: @new_manga_chapters.size) %>
 	</div>
 	<div class="readonline">
 	  <a href="#readmodal<%= x[0] %>">Read</a>

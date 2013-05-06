@@ -31,10 +31,14 @@ class MangasController < ApplicationController
    }
    @mangainfo = JSON.parse(HTTParty.get("http://www.mangaeden.com/api/manga/#{@manga['i']}/").body)
    @new_manga_chapters = []
-   @mangainfo['chapters'][0..(params['newchapters'].to_i-1)].each { |x|
-     @new_manga_chapters.push x
-   }
-   @new_manga_chapters.reverse!
+   if params['newchapters'].to_i == 0
+     @new_manga_chapters == nil
+   else
+     @mangainfo['chapters'][0..(params['newchapters'].to_i-1)].each { |x|
+       @new_manga_chapters.push x
+     }
+     @new_manga_chapters.reverse!
+   end
   end
 
   def read
@@ -74,8 +78,13 @@ class MangasController < ApplicationController
     current_user.save!(validate: false)
     sign_in current_user
 
-    redirect_to :back
+    if params['newchapters'].to_i >= 2
+      newchapters = params['newchapters'].to_i - 2
+    else
+      newchapters = 0
+    end
 
+    redirect_to mangas_info_path(manga: params['manga'], newchapters: newchapters)
   end
 
   def add
