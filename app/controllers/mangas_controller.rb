@@ -109,9 +109,15 @@ class MangasController < ApplicationController
       manga.latestchapter = params[:manga][2]
       manga.save
     end
-    sub = YAML.load(current_user.subscription)
-    entry = { title: params[:manga][0], chapter: params[:manga][2] }
-    sub.push entry
+    if current_user.subscription == nil
+      sub=[]
+      entry = { title: params[:manga][0], chapter: params[:manga][2] }
+      sub.push entry
+    else
+      sub = YAML.load(current_user.subscription)
+      entry = { title: params[:manga][0], chapter: params[:manga][2] }
+      sub.push entry
+    end
     current_user.update_attributes(subscription: sub)
     current_user.save!(validate: false)
     sign_in current_user
