@@ -7,7 +7,7 @@
 }
 
 #mainwrapper {
-  width: 50%;
+  width: 80%;
   margin:auto;
   margin-top: 10%;
 }
@@ -15,7 +15,6 @@
 #mainwrapper h1 {
   font-family: 'Noto Serif';
   text-align: center;
-  font-size: 6em;
 }
 
 .addmangaform {
@@ -31,12 +30,6 @@
   margin-top: -10%;
 }
 
-#title {
-  width: 100%;
-  margin:auto;
-  font-size:1.3em;
-}
-
 .enterbutton {
   width: 50%;
 }
@@ -46,3 +39,52 @@
   margin-left: 25%;
 }
 
+#moreinformation {
+  font-size:1.3em;
+  text-align:center;
+  height: 500px;
+}
+
+#moreinformation a {
+  text-decoration: none;
+  color:black;
+}
+
+#menunav {
+  padding: 2% 2% 0 2%;
+  height: auto;
+  text-align: justify;
+  text-justify: distribute-all-lines;
+}
+
+.menuitem {
+  width: auto;
+  display: inline-block;
+}
+
+#infonav a {
+  text-decoration:none;
+  color:black;
+}
+
+.stretcher {
+    width: 100%;
+    display: inline-block;
+    font-size: 0;
+    line-height: 0;
+}
+
+.page {
+  height: 2000px;
+}
+
+.page h2 {
+  padding-left: 2%;
+  font-size:3em;
+}
+
+.page h4 {
+  padding-left: 5%;
+  font-size:1.2em;
+  line-height:2em;
+}

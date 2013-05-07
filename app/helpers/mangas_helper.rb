@@ -1,6 +1,10 @@
 module MangasHelper
   def check(title)
-    YAML.load(current_user.subscription).each { |x| return true if x.has_value? title }
+    if current_user.subscription == nil
+      return false
+    else
+      YAML.load(current_user.subscription).each { |x| return true if x.has_value? title }
+    end
     false
   end
 
