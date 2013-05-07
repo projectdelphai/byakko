@@ -80,8 +80,9 @@
     line-height: 0;
 }
 
-.page {
-  height: 2000px;
+#page4 {
+  height: 100%;
+  padding-bottom: 500px;
 }
 
 .page h2 {
@@ -93,4 +94,14 @@
   padding-left: 5%;
   font-size:1.2em;
   line-height:2em;
+}
+
+.page img {
+  width: 100%;
+  margin:auto;
+}
+
+#page2 {
+  height: 100%;
+  padding-bottom: 500px;
 }

@@ -89,6 +89,31 @@ $(document).ready(function() {
     <div id="page2" class="page">
       <a id="instructions"></a>
       <h2><a style="font-size:1.3em;" href="#menunav">&uarr;</a><a href="#menunav">&uarr;</a>Instructions<a href="#about">&darr;</a></h2>
+      <h4>
+	Starting out, you have the home page with a basic manga search engine. You can explore around with the various basic manga, but the full potential comes after signing up. To sign up, just provide a username and password and you're good to go.
+	<%= image_tag "signup.png" %>
+	After signing up, the user profile loads with your subscribed manga. Here you see your manga and how many new chapters there are for you to read.
+	<%= image_tag "newprofile.png" %>
+	Since there are no manga subscribed, go to "Add Manga" and search for a manga of your choice. I'm going to choose God of High School for this demonstration. Since I was so specific, I was immediately deposited at the manga's info page. If I had just typed in "god", I would have seen a lot of choice and would have had to choose which one I meant.
+	<%= image_tag "beforesubbing.png" %>
+	Here you can see some basic information about the manga such as a description, its author, and its latest chapter. You can see the first 50 chapters, but it's not much use to you since Byakko hasn't retrieved any chapters for you. To do that, you have to add the manga. If you had already subscribed, this option would have been grayed out. When you add the manga, the manga is added to your subscription and you see that you are at the latest chapter. This is key. Byakko is a release tracker, not a reader. So to read previous chapters, you would have to go to an online reader such as Batoto or Mangaeden.
+	<%= image_tag "aftersubbing" %>
+	Now you have to wait. Within a week (for most active, popular manga), a release will have come up and Byakko will have picked it up. Checking your profile, you now see that there is one new chapter. By looking through your list (of one manga for now), you see that "God of High School" is the one.
+	<%= image_tag "newchapter.png" %>
+	By clicking on it, you are sent to the manga's info page
+	<%= image_tag "infonewchapter.png" %>
+	where you can download the manga
+	<%= image_tag "download.png" %>
+	or choose how to read the manga
+	<%= image_tag "readmodal.png" %>
+	You can either follow the links to an online reader such as Mangaeden (Batoto and scanlator websites will hopefully follow), or you can read on Byakko. If you choose to read on Byakko, the images are loaded and you can read the chapter.
+	<%= image_tag "read.png" %>
+	Then mark the chapter as read and you'll see the chapter is removed
+	<%= image_tag "nochaptersleft.png" %>
+	and your profile will be back to the beginning with "0 New Chapters"
+	<%= image_tag "backtobeginning.png" %>
+	This is all the basic information that one needs to operate Byakko.
+      </h4>
     </div>
     <div id="page3" class="page">
       <a id="about"></a>
