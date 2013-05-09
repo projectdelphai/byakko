@@ -1,7 +1,9 @@
 <div id='mangainfowrapper' style='width:75%;margin:auto;padding:2%;'>
   <div id="searchresult" style="padding-bottom: 3px;height:100%;overflow:hidden;padding:2%;">
     <div id="searchresultinfo" style="width:66%;float:right;padding:2%;">
-      <h1 style="text-align:center;"><%= @manga['t'] %></h1>
+      <h1 style="text-align:center;">
+	<%= @manga['t'] %>
+      </h1>
       <h3>Author: <%= @mangainfo['author'] %></h3>
       <h3>Artist: <%= @mangainfo['artist'] %></h3>
       <h3>Year of Release: <%= @mangainfo['released'] %></h3>
@@ -26,7 +28,8 @@
 	  <p> Sign in to add manga </p>
 	<% else %>
 	  <% if check(@mangainfo['title']) == true %>
-	    <p> Already Subscribed to Manga </p>
+	    <br>
+	    <%= link_to "Unsubscribe from Manga", mangas_remove_path(manga: @manga['t']) %>
 	  <% else %>
 	    <br>
 	    <%= link_to "Add Manga", mangas_add_path(manga: [ @mangainfo['title'], @mangainfo['author'], @mangainfo['chapters'][0][0] ]) %>

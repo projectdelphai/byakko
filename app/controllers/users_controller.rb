@@ -1,5 +1,8 @@
 class UsersController < ApplicationController
+  before_filter :api_key_login
   before_filter :user_entry_okay, only: [ :show ]
+  after_filter :api_key_logout
+
   def show
     @user = User.find(params[:id])
     @subscription = YAML.load(@user.subscription) unless @user.subscription == nil
@@ -43,4 +46,17 @@ class UsersController < ApplicationController
       redirect_to signin_url, notice: "Please sign in."
     end
   end
+
+  def api_key_login
+    if params['api_key']
+      sign_in(User.find_by_api_key(params['api_key']))
+    end
+  end
+
+  def api_key_logout
+    if params['api_key']
+      sign_out
+    end
+  end
+
 end

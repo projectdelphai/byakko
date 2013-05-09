@@ -1,5 +1,6 @@
 class MangasController < ApplicationController
-  
+  before_filter :api_key_login
+  after_filter :api_key_logout
   include MangasHelper
 
   def new
@@ -124,4 +125,26 @@ class MangasController < ApplicationController
     redirect_to current_user
   end
 
+  def remove
+    sub = YAML.load(current_user.subscription)
+    sub.delete_if { |x| x[:title] == params['manga'] }
+    current_user.update_attributes(subscription: sub)
+    current_user.save!(validate: false)
+    sign_in current_user
+    redirect_to current_user
+  end
+
+  private
+
+  def api_key_login
+    if params['api_key']
+      sign_in(User.find_by_api_key(params['api_key']))
+    end
+  end
+
+  def api_key_logout
+    if params['api_key']
+      sign_out
+    end
+  end
 end
