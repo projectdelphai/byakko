@@ -18,6 +18,9 @@ Byakko::Application.routes.draw do
   match 'mangas/read' => 'mangas#read', :as => 'mangas_read'
   match '/mangas/remove' => 'mangas#remove', :as => 'mangas_remove'
 
+  match 'manga.rss' => 'feeds#manga', :as => :feed, :defaults => { :format => 'rss' }
+  match 'newchapters.rss' => 'feeds#newchapters', :as => :feed, :defaults => { :format => 'rss' }
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

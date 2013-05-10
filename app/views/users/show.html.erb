@@ -64,3 +64,8 @@
     <%= link_to "Add manga", controller: "mangas", action: "new" %>
   </h4>
 </div>
+<div id="accountinfo">
+  <h5>
+    <%= "Api Key: #{current_user.api_key}" %>
+  </h5>
+</div>
