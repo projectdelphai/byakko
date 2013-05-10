@@ -69,6 +69,7 @@ GEM
     multi_json (1.7.2)
     multi_xml (0.5.3)
     multipart-post (1.2.0)
+    newrelic_rpm (3.6.2.96)
     nokogiri (1.5.9)
     oauth (0.4.7)
     oauth2 (0.9.1)
@@ -140,6 +141,7 @@ DEPENDENCIES
   google_drive
   httparty
   jquery-rails
+  newrelic_rpm
   pg
   rails (= 3.2.13)
   rubyzip

@@ -46,6 +46,20 @@ class MangasController < ApplicationController
      }
      @new_manga_chapters.reverse!
    end
+   respond_to do |format|
+     format.html
+     format.json { 
+       if @new_manga_chapters.size != 0
+	 newchapters =[]
+	 @new_manga_chapters.each { |x|
+  	   newchapters.push @new_manga_chapters[0][0], "http://www.mangaeden.com/en-manga/#{@mangainfo['alias']}/#{@new_manga_chapters[0][0]}/1"
+	 }
+       else
+	 newchapters = nil
+       end
+       render json: { "mangainfo" => @mangainfo.reject { |x| x == "chapters" }, "newchapters" => newchapters }
+     }
+   end
   end
 
   def read
