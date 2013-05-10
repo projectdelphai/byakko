@@ -18,11 +18,9 @@ class UsersController < ApplicationController
       format.html
       format.json {
 	manga=[]
-	@subscription.each { |x|
-	  @newchapters.each { |y|
+	@subscription.zip(@newchapters).each  { |x,y|
 	    entry = { "title" => x[:title], "currentchapter" => x[:chapter], "newchapters" => y }
 	    manga.push entry
-	  }
 	}
 	render json: { "manga" => manga }
       }
@@ -34,6 +32,7 @@ class UsersController < ApplicationController
   end
 
   def create
+    params[:user].merge! :api_key => SecureRandom.hex
     @user = User.new(params[:user])
     if @user.save
       sign_in @user
