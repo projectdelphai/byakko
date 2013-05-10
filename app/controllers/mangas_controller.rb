@@ -52,7 +52,7 @@ class MangasController < ApplicationController
        if @new_manga_chapters.size != 0
 	 newchapters =[]
 	 @new_manga_chapters.each { |x|
-  	   newchapters.push @new_manga_chapters[0][0], "http://www.mangaeden.com/en-manga/#{@mangainfo['alias']}/#{@new_manga_chapters[0][0]}/1"
+  	   newchapters.push x[0], "http://www.mangaeden.com/en-manga/#{@mangainfo['alias']}/#{x[0]}/1"
 	 }
        else
 	 newchapters = nil
