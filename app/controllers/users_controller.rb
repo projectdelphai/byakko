@@ -14,6 +14,19 @@ class UsersController < ApplicationController
   	@newchapters.push y
       }
     end
+    respond_to do |format|
+      format.html
+      format.json {
+	manga=[]
+	@subscription.each { |x|
+	  @newchapters.each { |y|
+	    entry = { "title" => x[:title], "currentchapter" => x[:chapter], "newchapters" => y }
+	    manga.push entry
+	  }
+	}
+	render json: { "manga" => manga }
+      }
+    end
   end
 
   def new
