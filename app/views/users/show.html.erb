@@ -65,7 +65,18 @@
   </h4>
 </div>
 <div id="accountinfo">
-  <h5>
+  <h2>
+    Account information
+  </h2>
+  <p>
+    <%= link_to "Delete account", current_user, method: :delete , data: { confirm: "Are you sure?" } %> 
+    <br>
+    <br>
+    <%= link_to "New Releases RSS Feed", "http://byakko.heroku.com/newchapters.rss?api_key=#{current_user.api_key}" %>
+    <br>
+    Do not give this rss feed to anyone else. It contains your personal api key which can be used to delete your account and access your personal data.
+    <br>
+    <br>
     <%= "Api Key: #{current_user.api_key}" %>
-  </h5>
+  </p>
 </div>

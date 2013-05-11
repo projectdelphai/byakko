@@ -44,6 +44,15 @@ class UsersController < ApplicationController
     end
   end
 
+  def destroy
+    if User.find(params[:id]).api_key == current_user.api_key
+      user = User.find(params[:id]).destroy
+      redirect_to root_url
+    else
+      redirect_to root_url
+    end
+  end
+
   private
   
   def user_entry_okay
