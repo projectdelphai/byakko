@@ -10,8 +10,8 @@ xml.rss :version => '2.0', 'xmlns:atom' => 'http://www.w3.org/2005/Atom' do
 
     for chapter in @newchapters
       xml.item do
-	xml.title "#{chapter['title']} - #{chapter['newchapters']}"
-	xml.description "Number of new chapters: #{chapter['newchapters']}"
+	xml.title "#{chapter['title']}"
+	xml.description "Number of new chapters: #{chapter['newchapters']}; signature: #{SecureRandom.hex}"
       end
     end
 
