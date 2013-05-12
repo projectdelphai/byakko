@@ -8,10 +8,9 @@ xml.rss :version => '2.0', 'xmlns:atom' => 'http://www.w3.org/2005/Atom' do
     xml.language 'en'
     xml.tag! 'atom:link', :rel => 'self', :type => 'application/rss+xml', :href => feed_url
 
-    for chapter in @newchapters
+    for chapter in @newmanga
       xml.item do
-	xml.title "#{chapter['title']} - Signature: #{SecureRandom.hex(5)}"
-	xml.description "Number of new chapters: #{chapter['newchapters']}"
+	xml.title "#{chapter['title']} - Chapters: #{chapter['newchapters']}"
       end
     end
 
