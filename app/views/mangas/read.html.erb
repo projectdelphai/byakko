@@ -1,9 +1,3 @@
-<script type="text/javascript">
-$(function() {
-	$('a').lightBox(); // Select all links in the page
-});
-</script>
-
 <div id="gallery">
   <% 
     require 'open-uri' 
@@ -20,8 +14,14 @@ $(function() {
     %>
     <% images.each_with_index { |imagepath,index| %>
       <div id="manga<%= index %>" class="mangaimage">
-	<img src="<%= "/#{dirname}/#{imagepath}" %>">
+	<img src="<%= "/#{dirname}/#{imagepath}" %>" data-original="<%= "/#{dirname}/#{imagepath}" %>" class="lazy">
       </div>
     <% } %>
-
 </div>
+<script type="text/javascript" charset="utf-8">
+  $(function() {
+    $("img").lazyload({
+      effect : "fadeIn"
+    });
+  });
+</script>
