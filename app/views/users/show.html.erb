@@ -24,7 +24,7 @@
     <h4>
       <% unless @newchapters == nil %>
 	<% @newchapters.each { |x| %>
-	  <%= link_to x[:title], mangas_info_path(manga: x[:title], newchapters: x[:newchapters]) %>
+	  <%= link_to x[:title], mangas_info_path(manga: x[:title], newchapters: x[:newchapter]) %>
 	  <br>
 	  <br>
 	<% } %>
