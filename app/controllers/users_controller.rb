@@ -6,14 +6,20 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @subscription = YAML.load(@user.subscription) unless @user.subscription == nil
-    @newchapters=[]
+    @new=[]
     unless @subscription == nil
       @subscription.each { |x|
   	manga = Manga.find_by_title(x[:title])
   	y = manga.latestchapter.to_i - x[:chapter].to_i
-  	@newchapters.push y
+  	@new.push y
       }
     end
+    @newchapters=[]
+    @subscription.each_with_index { |x,index|
+      hash = { :title => x[:title], :chapter => x[:chapter], :newchapter => @new[index] }
+      @newchapters.push hash
+    }
+    @newchapters = @newchapters.sort { |a,b| a[:newchapter] == b[:newchapter] ? a[:title] <=> b[:title] : a[:newchapter] <=> b[:newchapter] }.reverse
     respond_to do |format|
       format.html
       format.json {

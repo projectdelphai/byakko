@@ -3,7 +3,8 @@
 <h2 style="text-align:center;">
   <%
     new_chapters=0
-    @newchapters.each { |x|
+    @newchapters.each { |y|
+      x = y[:newchapter]
       if x > 0
 	new_chapters = new_chapters += x
       end
@@ -21,9 +22,9 @@
   <div class="title">
     <h3>Title</h3>
     <h4>
-      <% unless @subscription == nil %>
-	<% @subscription.each_with_index { |x,index| %>
-	  <%= link_to x[:title], mangas_info_path(manga: x[:title], newchapters: @newchapters[index]) %>
+      <% unless @newchapters == nil %>
+	<% @newchapters.each { |x| %>
+	  <%= link_to x[:title], mangas_info_path(manga: x[:title], newchapters: x[:newchapters]) %>
 	  <br>
 	  <br>
 	<% } %>
@@ -33,8 +34,9 @@
   <div class="newchapters">
     <h3>New Chapters</h3>
     <h4>
-      <% unless @subscription == nil %>
-	<% @newchapters.each { |x| %>
+      <% unless @newchapters == nil %>
+	<% @newchapters.each { |y| %>
+	  <% x = y[:newchapter] %>
 	  <% if x < 0 %>
 	    <%= x=0 %>
 	  <% else %>
@@ -49,8 +51,8 @@
   <div class="chapter">
     <h3>Chapter</h3>
     <h4>
-      <% unless @subscription == nil %>
-	<% @subscription.each { |x| %>
+      <% unless @newchapters == nil %>
+	<% @newchapters.each { |x| %>
 	  <%= x[:chapter] %>
 	  <br>
 	  <br>
