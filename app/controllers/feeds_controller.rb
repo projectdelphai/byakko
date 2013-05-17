@@ -11,6 +11,7 @@ class FeedsController < ApplicationController
     @current_user = current_user.username
     current_user_id = current_user.id
     response = JSON.load(HTTParty.get("http://byakko.heroku.com/users/#{current_user_id}.json?api_key=#{params['api_key']}").body)
+    #response = JSON.load(HTTParty.get("http://localhost:8080/users/#{current_user_id}.json?api_key=#{params['api_key']}").body)
     response['manga'].delete_if { |x|
       x['newchapters'].to_i <= 0
     }

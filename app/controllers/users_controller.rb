@@ -4,6 +4,7 @@ class UsersController < ApplicationController
   after_filter :api_key_logout
 
   def show
+    bt=Time.now
     @user = User.find(params[:id])
     @subscription = YAML.load(@user.subscription) unless @user.subscription == nil
     @new=[]
@@ -24,13 +25,17 @@ class UsersController < ApplicationController
       format.html
       format.json {
 	manga=[]
-	@subscription.zip(@newchapters).each  { |x,y|
-	    entry = { "title" => x[:title], "currentchapter" => x[:chapter], "newchapters" => y }
+	@newchapters.each { |x|
+	    entry = { "title" => x[:title], "currentchapter" => x[:chapter], "newchapters" => x[:newchapter] }
 	    manga.push entry
 	}
+	puts manga
 	render json: { "manga" => manga }
       }
     end
+    et=Time.now
+    puts et-bt
+
   end
 
   def new
