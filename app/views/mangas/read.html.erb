@@ -5,11 +5,11 @@
     filename = "#{@manga}-#{@chapter}.zip"
     dir = Dir.mktmpdir("#{@manga}-#{@chapter}", "public/")
     dirname = dir.match(/#{@manga}-#{@chapter}.*/)[0]
-    puts dir
-      open("#{dir}/#{filename}", "wb") do |file| 
-	file << open("#{@manga_url}").read 
-      end
-      unzip_file("#{dir}/#{filename}", "#{dir}")
+      puts dir
+    open("#{dir}/#{filename}", "wb") do |file| 
+      file << open("#{@manga_url}").read 
+    end
+    unzip_file("#{dir}/#{filename}", "#{dir}")
     images = `ls "#{dir}" | grep jpg`.split(/\n/)
     %>
     <% images.each_with_index { |imagepath,index| %>

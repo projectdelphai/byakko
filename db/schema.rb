@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130509040757) do
+ActiveRecord::Schema.define(:version => 20130518163742) do
 
   create_table "mangas", :force => true do |t|
     t.string   "title"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(:version => 20130509040757) do
     t.string   "cover"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
+    t.text     "chapter_urls"
   end
 
   create_table "users", :force => true do |t|

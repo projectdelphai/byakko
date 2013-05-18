@@ -4,7 +4,6 @@ class UsersController < ApplicationController
   after_filter :api_key_logout
 
   def show
-    bt=Time.now
     @user = User.find(params[:id])
     @subscription = YAML.load(@user.subscription) unless @user.subscription == nil
     @new=[]
@@ -33,9 +32,6 @@ class UsersController < ApplicationController
 	render json: { "manga" => manga }
       }
     end
-    et=Time.now
-    puts et-bt
-
   end
 
   def new
