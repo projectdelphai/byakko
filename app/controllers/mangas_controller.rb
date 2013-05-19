@@ -63,6 +63,9 @@ class MangasController < ApplicationController
   end
 
   def read
+    if params["page"]
+      @page = params["page"].to_i
+    end
     manga_url = download_manga(params['manga'], params['chapter'])
 
     if manga_url != nil
@@ -73,7 +76,29 @@ class MangasController < ApplicationController
       redirect_to :back
     end
 
-
+    require 'open-uri' 
+    require 'zip/zip'
+    filename = "#{@manga}-#{@chapter}.zip"
+    Dir.foreach("public/") do |dir|
+      if dir.match(/#{@manga}-#{@chapter}/)
+	@dirname = dir
+	@test = "true"
+      end
+    end
+    unless @test == "true" 
+      @dir = Dir.mktmpdir("#{@manga}-#{@chapter}", "public")
+      open("#{@dir}/#{filename}", "wb") do |file| 
+  	file << open("#{@manga_url}").read 
+      end
+      unzip_file("#{@dir}/#{filename}", "#{@dir}")
+    end
+    Dir.foreach("public/") do |dir|
+      if dir.match(/#{@manga}-#{@chapter}/)
+	@dirname = dir
+	@test = "true"
+      end
+    end
+    @images = `ls "public/#{@dirname}" | grep jpg`.split(/\n/)
   end
 
   def download

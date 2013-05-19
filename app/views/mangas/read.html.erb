@@ -1,22 +1,24 @@
 <div id="gallery">
-  <% 
-    require 'open-uri' 
-    require 'zip/zip'
-    filename = "#{@manga}-#{@chapter}.zip"
-    dir = Dir.mktmpdir("#{@manga}-#{@chapter}", "public/")
-    dirname = dir.match(/#{@manga}-#{@chapter}.*/)[0]
-      puts dir
-    open("#{dir}/#{filename}", "wb") do |file| 
-      file << open("#{@manga_url}").read 
-    end
-    unzip_file("#{dir}/#{filename}", "#{dir}")
-    images = `ls "#{dir}" | grep jpg`.split(/\n/)
+  <% if @page %>
+    <% 
+      imagepath = @images[@page]
+      puts imagepath
+      index = @page
     %>
-    <% images.each_with_index { |imagepath,index| %>
+    <div id="manga<%= index %>" class="mangaimage">
+      <% if @images[@page+1] == nil %>
+	<img src="<%= "/#{@dirname}/#{imagepath}" %>" data-original="<%= "/#{@dirname}/#{imagepath}" %>" class="lazy">
+      <% else %>
+	<%= link_to image_tag("/#{@dirname}/#{imagepath}", "data-original" => "/#{@dirname}/#{imagepath}", :class => "lazy"), mangas_read_path(manga: @manga, chapter: @chapter, page: @page+1) %>
+      <% end %>
+    </div>
+  <% else %>
+    <% @images.each_with_index { |imagepath,index| %>
       <div id="manga<%= index %>" class="mangaimage">
-	<img src="<%= "/#{dirname}/#{imagepath}" %>" data-original="<%= "/#{dirname}/#{imagepath}" %>" class="lazy">
+	<img src="<%= "/#{@dirname}/#{imagepath}" %>" data-original="<%= "/#{@dirname}/#{imagepath}" %>" class="lazy">
       </div>
     <% } %>
+  <% end %>
 </div>
 <script type="text/javascript" charset="utf-8">
   $(function() {
