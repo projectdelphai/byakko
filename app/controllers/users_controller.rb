@@ -4,8 +4,7 @@ class UsersController < ApplicationController
   after_filter :api_key_logout
 
   def show
-    @user = User.find(params[:id])
-    @subscription = YAML.load(@user.subscription) unless @user.subscription == nil
+    @subscription = YAML.load(current_user.subscription) unless current_user.subscription == nil
     @new=[]
     unless @subscription == nil
       @subscription.each { |x|
@@ -19,7 +18,7 @@ class UsersController < ApplicationController
       hash = { :title => x[:title], :chapter => x[:chapter], :newchapter => @new[index] }
       @newchapters.push hash
     }
-    @newchapters = @newchapters.sort { |a,b| a[:newchapter] == b[:newchapter] ? a[:title] <=> b[:title] : a[:newchapter] <=> b[:newchapter] }.reverse
+    @newchapters = @newchapters.sort_by { |x| [-x[:newchapter], x[:title]] }
     respond_to do |format|
       format.html
       format.json {

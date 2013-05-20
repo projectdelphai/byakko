@@ -1,5 +1,5 @@
-<% provide(:title, @user.username) %>
-<h1 style="text-align:center;"><%= @user.username %></h1>
+<% provide(:title, current_user.username) %>
+<h1 style="text-align:center;"><%= current_user.username %></h1>
 <h2 style="text-align:center;">
   <%
     new_chapters=0
@@ -66,19 +66,22 @@
     <%= link_to "Add manga", controller: "mangas", action: "new" %>
   </h4>
 </div>
-<div id="accountinfo">
-  <h2>
-    Account information
-  </h2>
-  <p>
-    <%= link_to "Delete account", current_user, method: :delete , data: { confirm: "Are you sure?" } %> 
-    <br>
-    <br>
-    <%= link_to "New Releases RSS Feed", "http://byakko.heroku.com/newchapters.rss?api_key=#{current_user.api_key}" %>
-    <br>
-    Do not give this rss feed to anyone else. It contains your personal api key which can be used to delete your account and access your personal data.
-    <br>
-    <br>
-    <%= "Api Key: #{current_user.api_key}" %>
-  </p>
+<div id="accountwrapper">
+  <a href="#accountinfo">Account information</a>
+  <div id="accountinfo" class="modal">
+    <div>
+      <a href="#close" title="Close" class="close">X</a>
+      <p>
+	<%= link_to "Delete account", current_user, method: :delete , data: { confirm: "Are you sure?" } %> 
+	<br>
+	<br>
+	<%= link_to "New Releases RSS Feed", "http://byakko.heroku.com/newchapters.rss?api_key=#{current_user.api_key}" %>
+	<br>
+	Do not give this rss feed to anyone else. It contains your personal api key which can be used to delete your account and access your personal data.
+	<br>
+	<br>
+	<%= "Api Key: #{current_user.api_key}" %>
+      </p>
+    </div>
+  </div>
 </div>
