@@ -5,6 +5,7 @@ class UsersController < ApplicationController
 
   def show
     @subscription = YAML.load(current_user.subscription) unless current_user.subscription == nil
+    expires_in 180.minutes
     @new=[]
     unless @subscription == nil
       @subscription.each { |x|
@@ -19,6 +20,7 @@ class UsersController < ApplicationController
       @newchapters.push hash
     }
     @newchapters = @newchapters.sort_by { |x| [-x[:newchapter], x[:title]] }
+    expires_in 180.minutes
     respond_to do |format|
       format.html
       format.json {
@@ -27,7 +29,7 @@ class UsersController < ApplicationController
 	    entry = { "title" => x[:title], "currentchapter" => x[:chapter], "newchapters" => x[:newchapter] }
 	    manga.push entry
 	}
-	puts manga
+    	expires_in 180.minutes
 	render json: { "manga" => manga }
       }
     end
