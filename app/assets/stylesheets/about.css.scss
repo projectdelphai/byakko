@@ -1,0 +1,84 @@
+// Place all the styles related to the home controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+* {
+  font-family: 'Noto Serif';
+}
+
+#mainwrapper {
+  width:80%;
+  margin:auto;
+  margin-top:0;
+}
+
+#moreinformation {
+  font-size:1.3em;
+  text-align:center;
+  height: 500px;
+}
+
+#moreinformation a {
+  text-decoration: none;
+  color:black;
+}
+
+#menunav {
+  padding: 2% 2% 0 2%;
+  height: auto;
+  text-align: justify;
+  text-justify: distribute-all-lines;
+}
+
+.menuitem {
+  width: auto;
+  display: inline-block;
+}
+
+#infonav a {
+  text-decoration:none;
+  color:black;
+}
+
+.stretcher {
+    width: 100%;
+    display: inline-block;
+    font-size: 0;
+    line-height: 0;
+}
+
+#page4 {
+  height: 2000px;
+}
+
+.page h2 {
+  padding-left: 2%;
+  font-size:3em;
+}
+
+.page h4 {
+  padding-left: 5%;
+  font-size:1.2em;
+  line-height:2em;
+}
+
+.page img {
+  width: 100%;
+  margin:auto;
+}
+
+#page2 {
+  height: 8000px
+}
+
+#page5 {
+  height: 1000px;
+}
+
+#page1 {
+  height: 1000px;
+}
+
+#page3 {
+  height: 1000px;
+}

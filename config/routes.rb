@@ -8,6 +8,7 @@ Byakko::Application.routes.draw do
   root to: 'home#index'
 
   match '/signup', to: 'users#new'
+  match '/about', to: 'about#index'
   match '/signin', to: 'sessions#new'
   match '/signout', to: 'sessions#destroy', via: :delete
   match '/mangas/list', to: 'mangas#list'

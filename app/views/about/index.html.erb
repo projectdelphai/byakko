@@ -1,0 +1,153 @@
+<script type="text/javascript">
+$(document).ready(function(){
+                $(".contactLink").click(function(){
+                    if ($("#contactForm").is(":hidden")){
+                        $("#contactForm").slideDown("slow");
+                    }
+                    else{
+                        $("#contactForm").slideUp("slow");
+                    }
+                });
+            });
+            function closeForm(){
+                $("#messageSent").show("slow");
+                setTimeout('$("#messageSent").hide();$("#contactForm").slideUp("slow")', 2000);
+           }
+
+$(document).ready(function() {
+  function filterPath(string) {
+    return string
+      .replace(/^\//,'')
+      .replace(/(index|default).[a-zA-Z]{3,4}$/,'')
+      .replace(/\/$/,'');
+  }
+  $('a[href*=#]').each(function() {
+    if ( filterPath(location.pathname) == filterPath(this.pathname)
+    && location.hostname == this.hostname
+    && this.hash.replace(/#/,'') ) {
+      var $targetId = $(this.hash), $targetAnchor = $('[name=' + this.hash.slice(1) +']');
+      var $target = $targetId.length ? $targetId : $targetAnchor.length ? $targetAnchor : false;
+       if ($target) {
+         var targetOffset = $target.offset().top;
+         $(this).click(function() {
+           $('html, body').animate({scrollTop: targetOffset}, 1000);
+           var d = document.createElement("div");
+        d.style.height = "101%";
+        d.style.overflow = "hidden";
+        document.body.appendChild(d);
+        window.scrollTo(0,targetOffset);
+        setTimeout(function() {
+        d.parentNode.removeChild(d);
+            }, 10);
+           return false;
+         });
+      }
+    }
+  });
+});
+/*! Smooth Scroll - v1.4.5 - 2012-07-22
+* Copyright (c) 2012 Karl Swedberg; Licensed MIT, GPL */
+</script>
+<div id="mainwrapper">
+  <div id="infonav">
+    <div id="menunav">
+      <h3>
+	<div class="menuitem"><a href="#introduction">Introduction</a></div>
+	<div class="menuitem"><a href="#instructions">Instructions</a></div>
+	<div class="menuitem"><a href="#about">About</a></div>
+	<div class="menuitem"><a href="#futureplans">Looking Ahead</a></div>
+	<div class="menuitem"><a href="#backend">Behind the Scenes</a></div>
+	<span class="stretcher"></span>
+      </h3>
+    </div>
+    <div id="page1" class="page">
+      <a id="introduction"></a>
+      <h2>Introduction<a href="#instructions">&darr;</a></h2>
+      <h4>Byakko was created to track manga. It remembers the manga you want to read and notifies you when a new chapter has been released. With each release, you can either read it on another online reader or on byakko, or you can download it as a cbz comic file.
+	<br>
+	Byakko was not created to replace great online readers such as Batoto. Know that while Byakko does allow you to read manga online, it is not an archive service-it only provides subscribed manga chapters. To read high quality scans of old already-released manga, I would suggest you head over to Batoto.
+	<br>
+	Byakko was only created to track manga releases. In the end, I want to create a service that scanlators are happy with. Most scanlators hate websites such as Mangafox, and I hope to earn a better reputation. This means that I do not earn ANY money of off this site. Though donations are welcome, they will always be forwarded to making Byakko better (i.e server costs). Though it will take time, I also hope to allow scanlators to supply Byakko with custom info such as manga download URLs, delay requests, URLs for online reading etc.
+	<br>
+	Byakko is also currently free of charge. This should not change without good reason.
+      </h4>
+    </div>
+    <div id="page2" class="page">
+      <a id="instructions"></a>
+      <h2><a style="font-size:1.3em;" href="#menunav">&uarr;</a><a href="#menunav">&uarr;</a>Instructions<a href="#about">&darr;</a></h2>
+      <h4>
+	Starting out, you have the home page with a basic manga search engine. You can explore around with the various basic manga, but the full potential comes after signing up. To sign up, just provide a username and password and you're good to go.
+	<%= image_tag "signup.png" %>
+	After signing up, the user profile loads with your subscribed manga. Here you see your manga and how many new chapters there are for you to read.
+	<%= image_tag "newprofile.png" %>
+	Since there are no manga subscribed, go to "Add Manga" and search for a manga of your choice. I'm going to choose God of High School for this demonstration. Since I was so specific, I was immediately deposited at the manga's info page. If I had just typed in "god", I would have seen a lot of choice and would have had to choose which one I meant.
+	<%= image_tag "beforesubbing.png" %>
+	Here you can see some basic information about the manga such as a description, its author, and its latest chapter. You can see the first 50 chapters, but it's not much use to you since Byakko hasn't retrieved any chapters for you. To do that, you have to add the manga. If you had already subscribed, this option would have been grayed out. When you add the manga, the manga is added to your subscription and you see that you are at the latest chapter. This is key. Byakko is a release tracker, not a reader. So to read previous chapters, you would have to go to an online reader such as Batoto or Mangaeden.
+	<%= image_tag "aftersubbing.png" %>
+	Now you have to wait. Within a week (for most active, popular manga), a release will have come up and Byakko will have picked it up. Checking your profile, you now see that there is one new chapter. By looking through your list (of one manga for now), you see that "God of High School" is the one.
+	<%= image_tag "newchapter.png" %>
+	By clicking on it, you are sent to the manga's info page
+	<%= image_tag "infonewchapter.png" %>
+	where you can download the manga
+	<%= image_tag "download.png" %>
+	or choose how to read the manga
+	<%= image_tag "readmodal.png" %>
+	You can either follow the links to an online reader such as Mangaeden (Batoto and scanlator websites will hopefully follow), or you can read on Byakko. If you choose to read on Byakko, the images are loaded and you can read the chapter.
+	<%= image_tag "read.png" %>
+	Then mark the chapter as read and you'll see the chapter is removed
+	<%= image_tag "nochaptersleft.png" %>
+	and your profile will be back to the beginning with "0 New Chapters"
+	<%= image_tag "backtobeginning.png" %>
+	This is all the basic information that one needs to operate Byakko.
+      </h4>
+    </div>
+    <div id="page3" class="page">
+      <a id="about"></a>
+      <h2><a style="font-size:1.3em;" href="#menunav">&uarr;</a><a href="#instructions">&uarr;</a>About<a href="#futureplans">&darr;</a></h2>
+      <h4>
+	Byakko is a one-man project of myself, projectdelphai. I have a <a href="https://github.com/projectdelphai" style="text-decoration:underline">Github account</a> and a <a href="https://projectdelphai.github.io" style="text-decoration:underline">a somewhat updated blog</a>. Byakko is my first Ruby on Rails project as well as my first true web application. I wrote a ruby program called mdeden which tracks manga and downloads it, but since none of  my friends who read manga also use linux, I created Byakko so that anyone can use it.
+	<br>
+	<br>
+	If you find any bugs in the system or have an issue, feature idea, or question, feel free to submit an issue over on the <a href="https://github.com/projectdelphai/byakko/issues" style="text-decoration:underline">Byakko github repo</a>. 
+	<br>
+	<br>
+	If you want to contact me with questions, ideas, or anything else, feel free to email me at byakkomanga@gmail.com.
+	<br>
+	<br>
+	I'm still trying to figure out how to accept donations, but they are welcome. All donations will go straight to making Byakko better such as better servers. For those interested, to upgrade Byakko right now, it's looking to be around 30-50 USD per month. Byakko is currently running on the free tier of Heroku which in an ideal world will be enough, but I don't know if it will. Anything left over would probably go to scanlators.
+	<br>
+      </h4>
+
+    </div>
+    <div id="page4" class="page">
+      <a id="futureplans"></a>
+      <h2><a style="font-size:1.3em;" href="#menunav">&uarr;</a><a href="#about">&uarr;</a>Looking Ahead<a href="#backend">&darr;</a></h2>
+      <h4>Byakko is very much a work in progress and still has quite a ways to go before it should be called complete. Right now, I'm at the point where I feel that Byakko is usable by most people and so I'm feel confident enough letting it go public. However, there are some things that I would like to get around to doing.
+	<br><br>
+	Features:<br>
+	<strike>RSS feeds of new releases</strike><br>
+	Email digests (low priority)<br>
+	<strike>API calls</strike><br>
+	<strike>Ability to delete account</strike><br>
+	<strike>Ability to remove manga<strike><br><br><br>
+
+	Future Plans: <br>
+	These are plans that will take me longer to implement, but still are important enough that I feel the need to make note of it.<br>
+
+	I'm hoping to scale Byakko up eventually, meaning that I want Byakko running on better servers so that it runs faster. If that means moving to Greenqloud or buying more dynos (See Behind the Scenes for more info), then that is what is necessary. However, that means money which I don't have and so may take some time coming.<br>
+
+	Though its only a vague idea, I have some sort of plan that involves providing manga for readers in a way that does not anger scanlators. This is proving very hard to do and may involve some hard choices (such as release delays). Until I figure out the best way to go about doing this, Byakko will remain as is.<br>
+	I also hope to remove any dependency on third-parties. While I am grateful to mangeden for their API, I hope to someday turn to an API of my own and to stop relying on mangaeden's supply of manga.<br>
+      </h4>
+
+    </div>
+    <div id="page5" class="page">
+      <a id="backend"></a>
+      <h2><a style="font-size:1.3em;" href="#menunav">&uarr;</a><a href="#futureplans">&uarr;</a>Behind the Scenes</h2>
+      <h4>Byakko is my first real project written for the web. It is written in Ruby on Rails and is hosted on Heroku. It currently uses the heroku postgresql database to store user and manga information. Until further notice (and more funding), it runs on one web dyno with no Amazon S3 CDN caching or any other addons. I have a separate heroku application which processes new releases every 6 hours. All new releases are downloaded and stored in a google doc for multiple downloads. yakko recieves information of new chapters from mangaeden's API and download the chapters from them as well. 
+	<br>
+	<br>
+	The source code is available on <a style="text-decoration:underline" href="https://github.com/projectdelphai/byakko">Github</a> for those who want to look at it.
+    </div>
+  </div>
+</div>
