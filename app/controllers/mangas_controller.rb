@@ -130,9 +130,15 @@ class MangasController < ApplicationController
   	newchapters = params['newchapters'].to_i - 1
       elsif params['newchapters'].to_i == 0 or params['newchapters'].to_i == 1
   	newchapters = 0
+      else
+	nil
       end
-      
-      redirect_to mangas_info_path(manga: params['manga'], newchapters: newchapters)
+
+      if params['newchapters']
+	redirect_to mangas_info_path(manga: params['manga'], newchapters: newchapters)
+      else
+	redirect_to current_user
+      end
     else
       redirect_to signin_path
     end

@@ -5,9 +5,11 @@
       puts imagepath
       index = @page
     %>
-    <div id="manga<%= index %>" class="mangaimage">
+    <div id="manga<%= index %>" class="mangaimage" style="text-align:center;">
       <% if @images[@page+1] == nil %>
 	<img src="<%= "/#{@dirname}/#{imagepath}" %>" data-original="<%= "/#{@dirname}/#{imagepath}" %>" class="lazy">
+	<br><br>
+	<%= link_to "Mark As Read", mangas_markasread_url(manga: @manga, chapter: @chapter.to_i) %>
       <% else %>
 	<%= link_to image_tag("/#{@dirname}/#{imagepath}", "data-original" => "/#{@dirname}/#{imagepath}", :class => "lazy"), mangas_read_path(manga: @manga, chapter: @chapter, page: @page+1) %>
       <% end %>
