@@ -108,10 +108,10 @@ $(document).ready(function() {
 	Byakko is a one-man project of myself, projectdelphai. I have a <a href="https://github.com/projectdelphai" style="text-decoration:underline">Github account</a> and a <a href="https://projectdelphai.github.io" style="text-decoration:underline">a somewhat updated blog</a>. Byakko is my first Ruby on Rails project as well as my first true web application. I wrote a ruby program called mdeden which tracks manga and downloads it, but since none of  my friends who read manga also use linux, I created Byakko so that anyone can use it.
 	<br>
 	<br>
-	If you find any bugs in the system or have an issue, feature idea, or question, feel free to submit an issue over on the <a href="https://github.com/projectdelphai/byakko/issues" style="text-decoration:underline">Byakko github repo</a>. 
+	If you find any bugs in the system or have an issue, feature idea, or question, feel free to submit an issue over on the <a href="https://github.com/projectdelphai/byakko/issues" style="text-decoration:underline">Byakko github repo</a>.
 	<br>
 	<br>
-	If you want to contact me with questions, ideas, or anything else, feel free to email me at byakkomanga@gmail.com.
+	If you want to contact me with questions, ideas, bugs or anything else, feel free to email me at byakkomanga@gmail.com.
 	<br>
 	<br>
 	I'm still trying to figure out how to accept donations, but they are welcome. All donations will go straight to making Byakko better such as better servers. For those interested, to upgrade Byakko right now, it's looking to be around 30-50 USD per month. Byakko is currently running on the free tier of Heroku which in an ideal world will be enough, but I don't know if it will. Anything left over would probably go to scanlators.
@@ -129,7 +129,7 @@ $(document).ready(function() {
 	Email digests (low priority)<br>
 	<strike>API calls</strike><br>
 	<strike>Ability to delete account</strike><br>
-	<strike>Ability to remove manga<strike><br><br><br>
+	<strike>Ability to remove manga</strike><br><br><br>
 
 	Future Plans: <br>
 	These are plans that will take me longer to implement, but still are important enough that I feel the need to make note of it.<br>
@@ -144,7 +144,7 @@ $(document).ready(function() {
     <div id="page5" class="page">
       <a id="backend"></a>
       <h2><a style="font-size:1.3em;" href="#menunav">&uarr;</a><a href="#futureplans">&uarr;</a>Behind the Scenes</h2>
-      <h4>Byakko is my first real project written for the web. It is written in Ruby on Rails and is hosted on Heroku. It currently uses the heroku postgresql database to store user and manga information. Until further notice (and more funding), it runs on one web dyno with no Amazon S3 CDN caching or any other addons. I have a separate heroku application which processes new releases every 6 hours. All new releases are downloaded and stored in a google doc for multiple downloads. yakko recieves information of new chapters from mangaeden's API and download the chapters from them as well. 
+      <h4>Byakko is my first real project written for the web. It is written in Ruby on Rails and is hosted on Heroku. It currently uses the heroku postgresql database to store user and manga information. It runs on one web dyno with no Amazon S3 CDN caching. It uses unicorn and newrelic. I have a separate heroku application which processes new releases every 6 hours. All new releases are downloaded and stored in a google doc for multiple downloads. Byakko recieves information of new chapters from mangaeden's API and downloads the chapters from them as well. 
 	<br>
 	<br>
 	The source code is available on <a style="text-decoration:underline" href="https://github.com/projectdelphai/byakko">Github</a> for those who want to look at it.
