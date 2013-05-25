@@ -59,10 +59,7 @@
 		<a href="http://www.mangaeden.com/en-manga/<%= @mangainfo['alias'] %>/<%= x[0] %>/1">Mangaeden</a>
 		<br>
 		<br>
-		<%= link_to "Read on Byakko", mangas_read_path(manga: @manga['t'], chapter: x[2].to_i) %>
-		<br>
-		<br>
-		<%= link_to "Read on Byakko (Experimental)", mangas_read_path(manga: @manga['t'], chapter: x[2].to_i, page: "0") %>
+		<%= link_to "Read on Byakko", mangas_read_path(manga: @manga['t'], chapter: x[2].to_i, page: "0") %>
   	      </h2>
             </div>
           </div>
