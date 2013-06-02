@@ -9,10 +9,15 @@ class User < ActiveRecord::Base
   validates :password_confirmation, presence: true
   validates :username, presence: true, length: { within: 5..30 }, uniqueness: true
 
+  def json_subscription
+    self.subscription = YAML.load(self.subscription)
+  end
+
   private
 
   def create_remember_token
     self.remember_token = SecureRandom.urlsafe_base64
   end
+
 
 end

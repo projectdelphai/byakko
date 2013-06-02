@@ -45,3 +45,11 @@ There is an API, but unless there is an overwhelming plea for them, I will not p
 ### Development environment ###
 
 Not documented yet. Someone please write this.
+
+Changelog
+------------
+
+1.0
+started writing tests
+started a changelog
+rewrote users controller
