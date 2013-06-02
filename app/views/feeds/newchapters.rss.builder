@@ -10,8 +10,8 @@ xml.rss :version => '2.0', 'xmlns:atom' => 'http://www.w3.org/2005/Atom' do
 
     for chapter in @newmanga
       xml.item do
-	xml.title "#{chapter['title']} - Chapters: #{chapter['newchapters']}"
-	xml.link "http://byakko.herokuapp.com/mangas/info?manga=#{chapter['title'].gsub(' ', '+')}&newchapters=#{chapter['newchapters'].size}"
+	xml.title "#{chapter['title']} - Chapters: #{chapter['newchapter']}"
+	xml.link "http://byakko.herokuapp.com/mangas/info?manga=#{chapter['title'].gsub(' ', '+')}&newchapters=#{chapter['newchapter'].size}"
       end
     end
 

@@ -50,6 +50,6 @@ Changelog
 ------------
 
 1.0
-started writing tests
-started a changelog
-rewrote users controller
+* started writing tests
+* started a changelog
+* rewrote users controller

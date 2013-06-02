@@ -9,18 +9,13 @@ class MangasController < ApplicationController
 
   def list
     @manga = Manga.new
-    require 'httparty'
     mangaedenmanga = JSON.parse(File.open("app/controllers/edenmangalist.txt", "rb") { |f| f.read })
     @query = params[:title]
     @results=[]
     mangaedenmanga['manga'].each { |x|
       @results.push x if x['t'].downcase.include? params[:title].strip.downcase
     }
-    if @results.size == 1
-      redirect_to mangas_info_path(manga: @results.first['t'], newchapters: -1)
-    else
-      nil
-    end
+    redirect_to mangas_info_path(manga: @results.first['t'], newchapters: -1) if @results.size == 1
   end
 
   def info

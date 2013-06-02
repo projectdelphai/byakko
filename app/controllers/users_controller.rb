@@ -32,13 +32,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html
       format.json {
-	manga=[]
-	@newchapters.each { |x|
-	    entry = { "title" => x[:title], "currentchapter" => x[:chapter], "newchapters" => x[:newchapter] }
-	    manga.push entry
-	}
-    	expires_in 180.minutes
-	render json: { "manga" => manga }
+	render json: { :manga => @newchapters }
       }
     end
   end
@@ -46,30 +40,7 @@ class UsersController < ApplicationController
   private
 
   def new_chapters(current_user)
-    subscription = current_user.json_subscription unless current_user.subscription == nil
-    number_of_new_chapters = check_for_number_of_new_chapters(subscription)
-    unsorted_new_chapters = get_raw_new_chapters_info(subscription,number_of_new_chapters)
-    @newchapters = unsorted_new_chapters.sort_by { |x| [-x[:newchapter], x[:title]] }
-  end
-
-  def get_raw_new_chapters_info(subscription,number_of_new_chapters)
-    newchapters = []
-    subscription.each_with_index { |manga,index|
-      hash = { :title => manga[:title], :chapter => manga[:chapter], :newchapter => number_of_new_chapters[index] }
-      newchapters.push hash
-    }
-    return newchapters
-  end
-
-  def check_for_number_of_new_chapters(subscription)
-    number_of_new_chapters = []
-    unless subscription == nil
-      subscription.each { |manga|
-	manga_record = Manga.find_by_title(manga[:title])
-	number_of_new_chapters.push manga_record.latestchapter.to_i - manga[:chapter].to_i
-      }
-    end
-    return number_of_new_chapters
+    subscription = Subscription.new.get_new_chapters(current_user).sort_by { |x| [-x[:newchapter], x[:title]] }
   end
 
   def user_entry_okay
@@ -88,4 +59,28 @@ class UsersController < ApplicationController
     sign_out if params['api_key']
   end
 
+end
+
+class Subscription
+  def get_new_chapters(current_user)
+    @subscription = current_user.json_subscription unless current_user.subscription == nil
+    number_of_new_chapters = get_number_of_new_chapters
+    newchapters = []
+    @subscription.each_with_index { |manga,index|
+      hash = { :title => manga[:title], :currentchapter => manga[:chapter], :newchapter => number_of_new_chapters[index] }
+      newchapters.push hash
+    }
+    return newchapters
+  end
+
+  def get_number_of_new_chapters
+    number_of_new_chapters = []
+    unless @subscription == nil
+      @subscription.each { |manga|
+	manga_record = Manga.find_by_title(manga[:title])
+	number_of_new_chapters.push manga_record.latestchapter.to_i - manga[:chapter].to_i
+      }
+    end
+    return number_of_new_chapters
+  end
 end
