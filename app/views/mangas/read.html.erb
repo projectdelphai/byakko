@@ -2,10 +2,8 @@
   <% if @page %>
     <% 
       imagepath = @images[@page]
-      puts imagepath
-      index = @page
     %>
-    <div id="manga<%= index %>" class="mangaimage" style="text-align:center;">
+    <div id="manga<%= @page %>" class="mangaimage" style="text-align:center;">
       <% if @images[@page+1] == nil %>
 	<img src="<%= "/#{@dirname}/#{imagepath}" %>" data-original="<%= "/#{@dirname}/#{imagepath}" %>" class="lazy">
 	<br><br>

@@ -26,8 +26,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @newchapters = new_chapters(current_user)
-    expires_in 180.minutes
+    current_user.subscription ? @newchapters = new_chapters(current_user) : @newchapters = []
 
     respond_to do |format|
       format.html
@@ -63,7 +62,7 @@ end
 
 class Subscription
   def get_new_chapters(current_user)
-    @subscription = current_user.json_subscription unless current_user.subscription == nil
+    @subscription = current_user.json_subscription
     number_of_new_chapters = get_number_of_new_chapters
     newchapters = []
     @subscription.each_with_index { |manga,index|

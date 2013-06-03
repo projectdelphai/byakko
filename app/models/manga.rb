@@ -1,5 +1,5 @@
 class Manga < ActiveRecord::Base
-  attr_accessible :author, :chapters, :cover, :title
+  attr_accessible :author, :chapters, :cover, :title, :latestchapter
 
   validates :title, presence: true
   validates :author, presence: true

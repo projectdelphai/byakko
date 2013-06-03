@@ -19,120 +19,40 @@ class MangasController < ApplicationController
   end
 
   def info
-   @manga = Manga.new
-   mangaedenmanga = JSON.parse(File.open("app/controllers/edenmangalist.txt", "rb") { |f| f.read })
-   mangaedenmanga['manga'].each { |x|
-     @manga = x if x['a'] == params[:manga]
-     @manga = x if x['t'] == params[:manga]
-   }
-   @mangainfo = JSON.parse(HTTParty.get("http://www.mangaeden.com/api/manga/#{@manga['i']}/").body)
-   @new_manga_chapters=[]   
-   if params['newchapters'].to_i == 0
-     @new_manga_chapters=[]
-   elsif params['newchapters'].to_i >= 1
-     @new_manga_chapters=[]
-     @mangainfo['chapters'][0..(params['newchapters'].to_i-1)].each { |x|
-       @new_manga_chapters.push x
-     }
-     @new_manga_chapters.reverse!
-   elsif params['newchapters']
-     @mangainfo['chapters'].each { |x|
-       @new_manga_chapters.push x
-     }
-     @new_manga_chapters.reverse!
-   end
-   respond_to do |format|
-     format.html
-     format.json { 
-       if @new_manga_chapters.size != 0
-	 newchapters =[]
-	 @new_manga_chapters.each { |x|
-  	   newchapters.push x[0], "http://www.mangaeden.com/en-manga/#{@mangainfo['alias']}/#{x[0]}/1"
-	 }
-       else
-	 newchapters = nil
-       end
-       render json: { "mangainfo" => @mangainfo.reject { |x| x == "chapters" }, "newchapters" => newchapters }
-     }
-   end
+    manga = Manga.new
+    @manga = manga.basic_info(params[:manga])
+    @mangainfo = manga.more_info(@manga['i'])
+    @new_manga_chapters = manga.new_manga_chapters(@mangainfo['chapters'],params['newchapters'])
+    respond_to do |format|
+      format.html
+      format.json { 
+      render json: { "mangainfo" => @mangainfo.reject { |x| x == "chapters" } }
+      }
+    end
   end
 
   def read
-    if params["page"]
-      @page = params["page"].to_i
-    end
-    manga_url = download_manga(params['manga'], params['chapter'])
-
-    if manga_url != nil
-      @manga_url = manga_url
-      @manga = params['manga']
-      @chapter = params['chapter']
-    else
-      redirect_to :back
-    end
-
-    require 'open-uri' 
-    require 'zip/zip'
-    filename = "#{@manga}-#{@chapter}.zip"
-    Dir.foreach("public/") do |dir|
-      if dir.match(/#{@manga}-#{@chapter}/)
-	@dirname = dir
-	@test = "true"
-      end
-    end
-    unless @test == "true" 
-      @dir = Dir.mktmpdir("#{@manga}-#{@chapter}", "public")
-      open("#{@dir}/#{filename}", "wb") do |file| 
-  	file << open("#{@manga_url}").read 
-      end
-      unzip_file("#{@dir}/#{filename}", "#{@dir}")
-    end
-    Dir.foreach("public/") do |dir|
-      if dir.match(/#{@manga}-#{@chapter}/)
-	@dirname = dir
-	@test = "true"
-      end
-    end
+    @page = params["page"].to_i if params["page"]
+    manga_url = get_manga_url(params['manga'], params['chapter'])
+    download_manga("#{@manga}-#{@chapter}")
     @images = `ls "public/#{@dirname}" | grep jpg`.split(/\n/)
   end
 
   def download
-    manga_url = download_manga(params['manga'], params['chapter'])
-
-    if manga_url != nil
-      redirect_to manga_url
-    else
-      redirect_to :back
-    end
+    manga_url = get_manga_url(params['manga'], params['chapter'])
+    redirect_to manga_url
   end
 
   def markasread
     if signed_in?
-      parsedsubscription = YAML.load(current_user.subscription)
-      parsedsubscription.each { |manga|
-  	if manga[:title] == params['manga']
-  	  manga[:chapter] = params['chapter']
-  	else
-  	  nil
-  	end
-      }
-      current_user.update_attributes(subscription: parsedsubscription)
-      current_user.save!(validate: false)
-      sign_in current_user
-      
-      newchapters = -1
-      if params['newchapters'].to_i >= 2
-  	newchapters = params['newchapters'].to_i - 1
-      elsif params['newchapters'].to_i == 0 or params['newchapters'].to_i == 1
-  	newchapters = 0
-      else
-	nil
-      end
+      new_subscription = current_user.json_subscription.each { |manga| manga[:chapter] = params['chapter'] if manga[:title] == params['manga'] }
+      update_subscription(current_user, new_subscription)
 
       if params['newchapters']
-	redirect_to mangas_info_path(manga: params['manga'], newchapters: newchapters)
+  	new_chapters = get_new_number_of_new_chapters(params['newchapters'].to_i)
+	redirect_to mangas_info_path(manga: params['manga'], newchapters: new_chapters)
       else
-	redirect_to current_user
+  	redirect_to current_user
       end
     else
       redirect_to signin_path
@@ -141,40 +61,81 @@ class MangasController < ApplicationController
 
   def add
     manga = Manga.find_by_title(params[:manga][0])
-    if manga
-      nil
-    else
-      manga = Manga.new
-      manga.title = params[:manga][0]
-      manga.author = params[:manga][1]
-      manga.latestchapter = params[:manga][2]
+    if !manga
+      manga = Manga.new( :title => params[:manga][0], :author => params[:manga][1], :latestchapter => params[:manga][2] )
       manga.save
     end
-    if current_user.subscription == nil
-      sub=[]
-      entry = { title: params[:manga][0], chapter: params[:manga][2] }
-      sub.push entry
-    else
-      sub = YAML.load(current_user.subscription)
-      entry = { title: params[:manga][0], chapter: params[:manga][2] }
-      sub.push entry
-    end
-    current_user.update_attributes(subscription: sub)
-    current_user.save!(validate: false)
-    sign_in current_user
+    !current_user.subscription ? sub=[] : sub=current_user.json_subscription
+    entry = { title: params[:manga][0], chapter: params[:manga][2] }
+    sub.push entry
+    update_subscription(current_user, sub)
     redirect_to current_user
   end
 
   def remove
-    sub = YAML.load(current_user.subscription)
+    sub = current_user.json_subscription
     sub.delete_if { |x| x[:title] == params['manga'] }
-    current_user.update_attributes(subscription: sub)
-    current_user.save!(validate: false)
-    sign_in current_user
+    update_subscription(current_user, sub)
     redirect_to current_user
   end
 
   private
+
+  def update_subscription(user, subscription)
+    current_user.update_attributes(subscription: subscription)
+    current_user.save!(validate: false)
+    sign_in current_user
+  end
+
+  def get_new_number_of_new_chapters(new_chapters)
+    if new_chapters >= 2
+      new_chapters -= 1
+    else
+      new_chapters = 0
+    end
+    return new_chapters
+  end
+
+  def download_manga(chapter_name)
+    if !dir_exists?(chapter_name)
+      dir = Dir.mktmpdir(chapter_name, "public")
+      open("#{dir}/#{filename}", "wb") { |file| file << open("#{manga_url}").read }
+      unzip_file("#{dir}/#{chapter_name}.zip", "#{dir}")
+      dir_exists?("#{@manga}-#{@chapter}")
+    end
+  end
+
+  def dir_exists?(directory)
+    Dir.foreach("public/") do |dir|
+      if dir.match(/#{directory}/)
+	@dirname = dir
+	return true
+      end
+    end
+    false
+  end
+
+  def unzip_file (file, destination)
+    Zip::ZipFile.open(file) { |zip_file|
+      zip_file.each { |f|
+   	f_path=File.join(destination, f.name)
+   	FileUtils.mkdir_p(File.dirname(f_path))
+   	zip_file.extract(f, f_path) unless File.exist?(f_path)
+      }
+    }
+  end
+
+  def get_manga_url(manga,chapter)
+    chapter_urls = Manga.find_by_title(manga).json_chapter_urls
+    if chapter_urls[chapter]
+      @manga = params['manga']
+      @chapter = params['chapter']
+    else
+      flash[:failed] = "No stored manga within Byakko"
+      redirecto_to :back
+    end
+    return chapter_urls[chapter]
+  end
 
   def api_key_login
     if params['api_key']
@@ -186,5 +147,32 @@ class MangasController < ApplicationController
     if params['api_key']
       sign_out
     end
+  end
+end
+
+class Manga
+  def new_manga_chapters(raw_chapters,number_of_new_chapters)
+    @new_manga_chapters=[]   
+    if number_of_new_chapters.to_i >= 1
+      raw_chapters[0..number_of_new_chapters.to_i-1].each { |x| @new_manga_chapters.push x }
+      @new_manga_chapters.reverse!
+    elsif !number_of_new_chapters or number_of_new_chapters.to_i < 0
+      raw_chapters.each { |x| @new_manga_chapters.push x }
+      @new_manga_chapters.reverse!
+    end
+    return @new_manga_chapters
+  end
+
+  def more_info(manga_id)
+    JSON.parse(HTTParty.get("http://www.mangaeden.com/api/manga/#{manga_id}/").body)
+  end
+
+  def basic_info(manga)
+    mangaeden_manga_list = JSON.parse(File.open("app/controllers/edenmangalist.txt", "rb") { |f| f.read })
+    mangaeden_manga_list['manga'].each { |x|
+      @manga = x if x['a'] == manga
+      @manga = x if x['t'] == manga
+    }
+    return @manga
   end
 end
