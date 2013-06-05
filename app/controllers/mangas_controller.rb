@@ -33,8 +33,8 @@ class MangasController < ApplicationController
 
   def read
     @page = params["page"].to_i if params["page"]
-    manga_url = get_manga_url(params['manga'], params['chapter'])
-    download_manga("#{@manga}-#{@chapter}")
+    manga_url = get_manga_url(params['manga'], params['chapter'].to_s)
+    download_manga("#{@manga}-#{@chapter}",manga_url)
     @images = `ls "public/#{@dirname}" | grep jpg`.split(/\n/)
   end
 
@@ -96,10 +96,13 @@ class MangasController < ApplicationController
     return new_chapters
   end
 
-  def download_manga(chapter_name)
+  def download_manga(chapter_name,manga_url)
+    require 'open-uri'
     if !dir_exists?(chapter_name)
       dir = Dir.mktmpdir(chapter_name, "public")
-      open("#{dir}/#{filename}", "wb") { |file| file << open("#{manga_url}").read }
+      open("#{dir}/#{chapter_name}.zip", "wb") do |file|
+       	file << open("#{manga_url}").read
+      end
       unzip_file("#{dir}/#{chapter_name}.zip", "#{dir}")
       dir_exists?("#{@manga}-#{@chapter}")
     end
@@ -132,7 +135,7 @@ class MangasController < ApplicationController
       @chapter = params['chapter']
     else
       flash[:failed] = "No stored manga within Byakko"
-      redirecto_to :back
+      redirect_to :back
     end
     return chapter_urls[chapter]
   end
